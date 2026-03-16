@@ -5,6 +5,10 @@
     "std.um"
 
     th_font = "font.um"
+    "std2.um"
+
+
+    "std2.um"
 )
 
 // some comment
@@ -15,7 +19,13 @@ type X = struct {
     b, c: []int
     d: str
     e: weak ^th_font::Font
-    f: fn (a: int, b: char): (bool, uint)
+    f: fn (a, y: int, b: char): (bool, uint, vf2)
+}
+
+type E = enum {
+  a
+  b
+  c ; d
 }
 
 const x = 32
@@ -53,6 +63,10 @@ fn main() {
             printf("other")
     }
 
+    if v := a(); v {
+      printf("")
+    }
+
     switch v := input(); v {
         case 0: printf("zero")
         case 1: printf("one")
@@ -69,6 +83,7 @@ fn main() {
 
     x := DKFJ(a)
 
+    y := abs(2)
 
     switch val := type(x) {
         case int: printf("int")
@@ -77,7 +92,7 @@ fn main() {
         default: printf("other")
     }
 
-    printf("Hello \n %d world!", 42)
+    printf("Hello \n %d %10v world!", 42)
 
     if a := true; a {
         printf("yes")

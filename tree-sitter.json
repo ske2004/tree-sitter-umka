@@ -1,0 +1,39 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "umka",
+      "camelcase": "Umka",
+      "title": "Umka",
+      "scope": "source.umka",
+      "file-types": [
+        "um"
+      ],
+      "injection-regex": "^umka$",
+      "class-name": "TreeSitterUmka"
+    }
+  ],
+  "metadata": {
+    "version": "1.5.6",
+    "license": "MIT",
+    "description": "Umka tree-sitter",
+    "authors": [
+      {
+        "name": "ske2004",
+        "email": "contact@ske.land"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/thacuber2a03/tree-sitter-umka/"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true,
+    "zig": false
+  }
+}

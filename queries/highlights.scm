@@ -2,13 +2,6 @@
 
 ["if" "for"] @keyword.conditional
 
-["append" "atan" "atan2" "cap" "ceil" "copy" "cos" "delete"
- "exit" "exp" "fabs" "fiberalive" "fibercall" "fiberspawn"
- "floor" "fprintf" "fscanf" "insert" "keys" "len" "log" "make"
- "memusage" "new" "printf" "round" "scanf" "selfhasptr"
- "selftypeeq" "sin" "sizeof" "sizeofself" "slice" "sprintf"
- "sqrt" "sscanf" "trunc" "typeptr" "valid" "validkey"] @support.function @function.builtin
-
 ["=" ":=" "*" ":" "," "::" "." ";" "++" "--"] @operator
 
 (closureLiteral "|" @keyword)
@@ -20,6 +13,7 @@
 (fnDecl name: (ident) @function)
 
 (functionCall name: (qualIdent name: (ident) @function))
+(functionCall name: (qualIdent name: (ident) @support.function (#match? @support.function "^(abs|append|atan|atan2|cap|ceil|copy|cos|delete|exit|exp|fabs|floor|fprintf|fscanf|insert|keys|leaksan|len|log|make|memusage|new|printf|resume|round|scanf|selfhasptr|selfptr|selftypeeq|sin|sizeof|sizeofself|slice|sort|sprintf|sqrt|sscanf|trunc|typeptr|valid|validkey)$")))
 (functionCall name: (qualIdent name: (ident) @type.builtin) (#match? @type.builtin "^((str|void|int8|int16|int32|int|uint8|uint16|uint32|uint|bool|char|real32|real|fiber|any)$|[_]*[A-Z])"))
 (functionCall name: (qualIdent name: (ident) @type) (#match? @type "^([_]*[A-Z])"))
 
@@ -33,7 +27,6 @@
 (enumItem) @constant
 (enumLiteral name: (ident) @constant)
 (stringLiteral)  @string
-(stringFmtLiteral)  @string
 (stringImportLiteral)  @string
 (escSeq) @string.special
 (fmtSeq) @string.special

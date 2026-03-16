@@ -1,48 +1,65 @@
-const implSemi = repeat1(/[;\n]/)
-const optImplSemi = repeat(/[;\n]/)
+const reqSemi = choice('\n', ';')
 const optSeq = (...rules) => optional(seq(...rules))
 const repSeq = (...rules) => repeat(seq(...rules))
 const delimSeq = (delim, ...rules) => seq(optSeq(...rules), repSeq(delim, ...rules))
+const delimSeq1 = (delim, ...rules) => seq(...rules, repSeq(delim, ...rules))
+const reqSemiBlock = (rule) => optional(seq(optional(rule), repSeq(reqSemi, optional(rule))))
+
+const TERNARY_PRECEDENCE = 1
+const BIN_PRECEDENCE_START = TERNARY_PRECEDENCE+1
+
+const OPERATORS = [
+  ["||"],
+  ["&&"],
+  ["==", "!=", "<", "<=", ">", ">="],
+  ["+", "-", "|", "~"],
+  ["*", "/", "%", "<<", ">>", "&"],
+]
 
 module.exports = grammar({
   name: "umka",
 
   inline: $ => [
     $.decl,
+    $.qualIdent,
+    $.toplevelDecl,
     $.stmt,
-    $.primary,
     $.simpleStmt,
-    $.expr,
     $.number,
-    $.varDecl,
     $.builtinCall,
-    $.callStmt // TODO: check if this is fine
+    $.callStmt, // TODO: check if this is fine
+    $.typedSwitchStmt,
+    $.exprSwitchStmt,
+    $.locals,
+    $.designator,
+    $.atom,
+    $.expr,
+    $.inferredExpr,
+    $.inferredAtom,
   ],
 
   extras: $ => [
     $.comment,
-    /[ \t\r]/,
+    /\s/,
   ],
 
   word: $ => $.ident,
 
-  conflicts: $ => [[$.signature], [$.functionCall, $.type]],
+  conflicts: $ => [
+    [$.signature],
+    [$.localIdentList, $.typedSwitchStmtHeader],
+    [$.identList, $.designatorList],
+    [$.compositeLiteral, $.block],
+    [$.compositeLiteral],
+    [$.identList, $.designatorList, $.compositeLiteral],
+  ],
 
   rules: {
-    program: $ => seq(
-      optImplSemi,
-      optional($.import),
-      repeat($.decl)
-    ),
+    program: $ => reqSemiBlock($.toplevelDecl),
 
     import: $ => choice(
       seq('import', $.importItem),
-      seq(
-        'import', '(',
-        optImplSemi,
-        repeat($.importItem),
-        ')', implSemi
-      )
+      seq('import', '(', reqSemiBlock($.importItem), ')')
     ),
 
     importItem: $ => seq(
@@ -50,66 +67,70 @@ module.exports = grammar({
         seq(field('name', $.ident), '=', $.stringLiteral),
         $.stringImportLiteral
       ),
-      implSemi
     ),
 
-    decl: $ => seq(choice(
-      $.fnDecl,
+    toplevelDecl: $ => choice(
+      $.import,
       $.methodDecl,
+      $.fnDef,
       $.varDecl,
       $.typeDecl,
       $.constDecl,
-    )),
+    ),
+
+    decl: $ => choice(
+      $.fnDef,
+      $.varDecl,
+      $.typeDecl,
+      $.constDecl,
+    ),
 
     constDecl: $ => seq('const', choice(
       $.constDeclItem,
-      seq("(", optImplSemi, repSeq($.constDeclItem), ")", implSemi),
+      seq("(", reqSemiBlock($.constDeclItem), ")"),
     )),
 
     constDeclItem: $ => seq(
       field('name', $.ident),
       optional($.exportMark),
       '=', field('value', $.expr),
-      implSemi,
     ),
 
-    varDecl: $ => choice($.fullVarDecl, $.shortVarDecl),
-
-    shortVarDecl: $ => seq($.declAssignmentStmt, implSemi),
+    varDecl: $ => choice($.fullVarDecl, $.declAssignmentStmt),
 
     fullVarDecl: $ => seq("var", choice(
       $.varDeclItem,
-      seq("(", optImplSemi, repSeq($.varDeclItem), ")"),
+      seq("(", reqSemiBlock($.varDeclItem), ")"),
     )),
 
     varDeclItem: $ => seq(
       field('identifiers', $.typedIdentList),
-      optSeq("=", field('value', $.expr)),
-      implSemi,
+      optSeq("=", field('value', $.inferredExpr)),
     ),
 
     exportMark: $ => '*',
 
-    identList: $ => seq(
-      $.ident, field('exported', optional('*')),
-      repSeq(",", $.ident, field('exported', optional($.exportMark))),
-    ),
+    identList: $ => delimSeq1(",", $.ident, optional($.exportMark)),
+    localIdentList: $ => delimSeq1(",", $.ident),
 
     typedIdentList: $ => seq($.identList, ":", optional(".."), $.type),
 
-    typeDecl: $ => seq('type',
-      choice($.typeDeclItem, seq("(", repSeq($.typeDeclItem), ")"))
+    typeDecl: $ => seq(
+      'type',
+      choice(
+        $.typeDeclItem,
+        seq("(", reqSemiBlock($.typeDeclItem), ")")
+      )
     ),
 
     typeDeclItem: $ => seq(
       field('name', $.ident),
       optional($.exportMark),
       '=', $.type,
-      implSemi
     ),
 
     type: $ => choice(
-      $.qualIdent,
+      prec(-1, $.qualIdent),
       $.ptrType,
       $.arrayType,
       $.dynArrayType,
@@ -117,25 +138,36 @@ module.exports = grammar({
       $.structType,
       $.mapType,
       $.interfaceType,
-      $.closureType,
+      $.fnType,
     ),
 
     ptrType: $ => seq(optional("weak"), '^', $.type),
     arrayType: $ => seq('[', $.expr, ']', $.type),
     dynArrayType: $ => seq('[', ']', $.type),
-    enumType: $ => seq('enum', '{', repeat($.enumItem), '}'),
-    enumItem: $ => seq(field('name', $.ident), implSemi),
-    structType: $ => seq('struct', '{', optImplSemi, repSeq($.typedIdentList, implSemi), '}'),
+    enumType: $ => seq('enum', '{', reqSemiBlock($.enumItem), '}'),
+    enumItem: $ => field('name', $.ident),
+    structType: $ => seq('struct', '{', reqSemiBlock($.typedIdentList), '}'),
 
     mapType: $ => seq('map', '[', $.type, ']', $.type),
-    interfaceType: $ => seq('interface', '{', repeat($.interfaceItem), '}'),
+    interfaceType: $ => seq('interface', '{', reqSemiBlock($.interfaceItem), '}'),
 
     interfaceItem: $ => choice(
-      field('type', $.ident),
+      field('type', $.qualIdent),
       seq(field('name', $.ident), $.signature),
     ),
 
-    closureType: $ => seq('fn', $.signature),
+    fnDecl: $ => seq("fn",
+      field('name', $.ident),
+      optional($.exportMark),
+      field('signature', $.signature),
+    ),
+
+    fnType: $ => seq("fn", field('signature', $.signature)),
+
+    fnDef: $ => seq(
+      $.fnDecl,
+      optional(field('body', $.block)),
+    ),
 
     signature: $ => seq(
       $.parameterList,
@@ -147,27 +179,24 @@ module.exports = grammar({
       seq("(", $.type, repSeq(",", $.type), ")"),
     ),
 
+    localDeclAssignmentStmt: $ => seq(
+      field('identifiers', $.localIdentList),
+      ":=",
+      field('values', $.exprList)
+    ),
+
     declAssignmentStmt: $ => seq(
       field('identifiers', $.identList),
       ":=",
       field('values', $.exprList)
     ),
 
-    fnDecl: $ => seq("fn",
-      field('name', $.ident),
-      optional(field('exported', '*')),
-      field('signature', $.signature),
-      optional(field('body', $.block)),
-      implSemi
-    ),
-
     methodDecl: $ => seq("fn",
       field('receiver', $.rcvSignature),
       field('name', $.ident),
-      optional(field('exported', '*')),
+      optional($.exportMark),
       field('signature', $.signature),
       optional(field('body', $.block)),
-      implSemi
     ),
 
     rcvSignature: $ => seq("(",
@@ -176,41 +205,61 @@ module.exports = grammar({
       ")"
     ),
 
-    exprList: $ => prec(1, seq($.expr, repSeq(",", $.expr))),
+    exprList: $ => seq($.expr, repSeq(",", $.expr)),
+    inferredExprList: $ => seq($.inferredExpr, repSeq(",", $.inferredExpr)),
 
     parameterList: $ => seq(
       "(",
       delimSeq(",",
         field('params', $.typedIdentList),
-        optSeq('=', field('defaultValue', $.expr)),
+        optSeq('=', field('defaultValue', $.inferredExpr)),
       ),
       ")"
     ),
 
-    block: $ => seq("{", optImplSemi, repeat($.stmt), "}"),
+    block: $ => prec(1, seq("{", reqSemiBlock($.stmt), "}")),
 
     stmt: $ => choice(
-      seq($.block, optImplSemi),
+      $.block,
       $.decl,
-      seq($.ifStmt, optImplSemi),
-      seq($.forStmt, implSemi),
-      seq($.switchStmt, implSemi),
-      seq($.simpleStmt, implSemi),
-      seq(alias("continue", $.continueStmt), implSemi),
-      seq(alias("break", $.continueStmt), implSemi),
-      seq($.returnStmt, implSemi),
+      $.ifStmt,
+      $.forStmt,
+      $.switchStmt,
+      $.simpleStmt,
+      "continue",
+      "break",
+      $.returnStmt,
+      $.opAssignStmt,
+      $.assignStmt,
     ),
 
-    returnStmt: $ => seq("return", $.exprList),
+    opAssignStmt: $ => seq(
+      field('identifier', $.designator),
+      field('operator', choice("+=", "-=", "*=", "/=", "%=", "&=", "|=", "~=", "<<=", ">>=")),
+      $.inferredExpr,
+    ),
 
-    callStmt: $ => alias($.designator, 'callStmt'),
+    designatorList: $ => delimSeq1(",", $.designator),
 
-    ifStmt: $ => prec(3, seq("if",
-      optSeq(field('locals', $.declAssignmentStmt), ";"),
+    assignStmt: $ => seq(
+      field('identifiers', $.designatorList),
+      "=",
+      $.inferredExprList,
+    ),
+
+    returnStmt: $ => seq("return", optional($.inferredExprList)),
+
+    callStmt: $ => alias($.callDesignator, 'callStmt'),
+
+    locals: $ => seq($.localDeclAssignmentStmt, ';'),
+
+    ifStmt: $ => seq(
+      "if",
+      optional($.locals),
       field('condition', $.expr),
       field('consequent', $.block),
       optSeq("else", field('alternative', choice($.ifStmt, $.block)))
-    )),
+    ),
 
     forStmt: $ => seq(
       "for",
@@ -222,7 +271,7 @@ module.exports = grammar({
     ),
 
     forHeader: $ => prec(1, seq(
-      optSeq(field('init', choice($.simpleStmt, $.declAssignmentStmt)), ";"),
+      optional($.locals),
       field('condition', $.expr),
       optSeq(";", field('post', $.simpleStmt)),
     )),
@@ -235,47 +284,41 @@ module.exports = grammar({
 
     switchStmt: $ => choice(
       $.exprSwitchStmt,
-      $.switchStmtDisambiguated,
+      $.typedSwitchStmt,
     ),
 
-    switchStmtDisambiguated: $ => prec(1, seq(
+    typedSwitchStmt: $ => seq(
       "switch",
-      field('name', $.ident),
-      ':=',
-      choice(seq(
-        $.typeOf,
-        '{', optImplSemi,
-        repeat($.typeCase),
-        '}'
-      ), seq(
-        $.expr, ";",
-        field('value', $.expr),
-        "{", optImplSemi,
-        repeat($.exprCase),
-        "}",
-      ))
-    )),
+      $.typedSwitchStmtHeader,
+      $.typedSwitchStmtBody,
+    ),
 
-    exprSwitchStmt: $ => prec(1, seq(
+    typedSwitchStmtBody: $ => seq(
+      '{',
+      repeat(choice(
+        seq('case', $.type, ':', reqSemiBlock($.stmt)),
+        seq('default', ':', reqSemiBlock($.stmt)),
+      )),
+      '}'
+    ),
+
+    exprSwitchStmt: $ => seq(
       "switch",
-      optSeq(field('locals', $.declAssignmentStmt), ";"),
+      optional($.locals),
       field('value', $.expr),
-      "{", optImplSemi,
-      repeat($.exprCase),
-      "}",
-    )),
-
-    exprCase: $ => choice(
-      seq("case", delimSeq(",", $.expr), ":", optImplSemi, repeat($.stmt)),
-      seq("default", ":", optImplSemi, repeat($.stmt)),
+      $.exprSwitchStmtBody,
     ),
 
-    typeOf: $ => prec(1, seq('type', '(', $.expr, ')')),
-
-    typeCase: $ => choice(
-      seq('case', $.type, ':', optImplSemi, repeat($.stmt)),
-      seq('default', ':', optImplSemi, repeat($.stmt))
+    exprSwitchStmtBody: $ => seq(
+      '{',
+      repeat(choice(
+        seq("case", $.exprList, ":", reqSemiBlock($.stmt)),
+        seq("default", ":", reqSemiBlock($.stmt)),
+      )),
+      '}'
     ),
+
+    typedSwitchStmtHeader: $ => seq(field('name', $.ident), ':=', 'type', '(', $.expr, ')'),
 
     simpleStmt: $ => choice(
       $.incDecStmt,
@@ -284,82 +327,120 @@ module.exports = grammar({
 
     incDecStmt: $ => seq($.designator, choice("++", "--")),
 
-    singleAssgnStmt: $ => seq($.designator, "=", $.expr),
-    listAssgnStmt: $ => seq($.designatorList, "=", $.exprList),
-    designatorList: $ => seq($.designator, repSeq(",", $.designator)),
+    expr: $ => choice($.ternary, $.factor, $.designator, $.binExpr, $.compositeLiteral),
+    inferredExpr: $ => choice($.expr, $.inferredAtom),
 
-    expr: $ => choice($.stringLiteral, $.number, $.primary, $.literal, $.enumLiteral, $.closureLiteral, $.typeCast),
+    ternary: $ => prec.right(TERNARY_PRECEDENCE, seq($.expr, "?", $.expr, ":", $.expr)),
+    binExpr: $ => choice(
+      ...(OPERATORS.map((group, i) =>
+        group.map(op => prec.left(BIN_PRECEDENCE_START+i, seq(
+          $.expr,
+          field('operator', op),
+          $.expr,
+        )))
+      )).flat()
+    ),
 
-    literal: $ => seq(
-      optional($.type),
+    factor: $ => choice(
+      seq('+', $.designator),
+      seq('-', $.designator),
+      seq('~', $.designator),
+      seq('!', $.designator),
+      seq('&', $.designator),
+    ),
+
+    designator: $ => choice(
+      $.callDesignator,
+      $.arrayDesignator,
+      $.derefDesignator,
+      $.accessDesignator,
+      $.atom,
+    ),
+
+    callDesignator: $ => seq(
+      $.designator,
+      $.callParams,
+    ),
+
+    callParams: $ => seq('(', delimSeq(",", $.inferredExpr), ')'),
+
+    arrayDesignator: $ => seq(
+      $.designator,
+      '[', $.expr, ']'
+    ),
+
+    derefDesignator: $ => seq(
+      $.designator,
+      '^',
+    ),
+
+    accessDesignator: $ => seq(
+      $.designator,
+      '.',
+      $.ident
+    ),
+
+    atom: $ => choice(
+      $.stringLiteral,
+      $.number,
+      $.qualIdent,
+      $.builtinCall,
+      $.typedCompositeLiteral,
+      $.enumLiteral,
+      $.typeCast,
+      $.parenExpr,
+    ),
+
+    inferredAtom: $ => choice($.atom, $.compositeLiteral),
+
+    parenExpr: $ => seq('(', $.expr, ')'),
+
+    typedCompositeLiteral: $ => seq(
+      $.type,
+      $.compositeLiteral,
+    ),
+
+    compositeLiteral: $ => seq(
+      optSeq("|", delimSeq(",", $.ident), "|"),
       "{",
       choice(
-        delimSeq(",", $.ident, ':', $.expr, optImplSemi),
-        delimSeq(",", optImplSemi, $.expr, optImplSemi),
-        delimSeq(",", $.expr, ':', $.expr, optImplSemi)
+        seq(delimSeq(",", $.inferredExpr, ':', $.inferredExpr), optional(",")),
+        seq(delimSeq(",", $.inferredExpr), optional(",")),
+        reqSemiBlock($.stmt),
       ),
-      "}"
+      "}",
     ),
 
     enumLiteral: $ => seq(".", field('name', $.ident)),
-    closureLiteral: $ => seq("|", delimSeq(",", $.ident), "|", $.block),
     typeCast: $ => seq($.type, '(', $.expr, ')'),
 
-    designator: $ => $.primary,
+    qualIdent: $ => choice(
+      $.moduleIdent,
+      $.ident,
+    ),
 
-    primary: $ => choice($.qualIdent, $.builtinCall, $.functionCall),
-
-    qualIdent: $ => prec(2, seq(
-      optSeq(field('module', $.ident), '::'),
-      field('name', $.ident)
-    )),
-
-    functionCall: $ => seq(
-      field('name', $.qualIdent),
-      field('arguments', seq(
-        "(", optSeq($.expr, repSeq(",", $.expr)), ")",
-      ))
+    moduleIdent: $ => seq(
+      field('module', $.ident), '::', field('name', $.ident)
     ),
 
     builtinCall: $ => choice(
-      $.builtinCallFmt,
-      $.builtinCallMake,
+      $.builtinCall2Type,
       $.builtinCall1Type,
-      $.builtinCallBasic,
     ),
 
-    builtinCallBasic: $ => prec(4, seq(
-      choice("append", "atan", "atan2", "cap", "ceil", "copy", "cos", "delete",
-        "exit", "exp", "fabs", "fiberalive", "fibercall", "fiberspawn",
-        "floor", "insert", "keys", "len", "log",
-        "memusage", "round", "selfhasptr",
-        "selftypeeq", "sin", "sizeof", "sizeofself", "slice",
-        "sqrt", "trunc", "typeptr", "valid", "validkey"),
+    builtinCall2Type: $ => seq(
+      field('name', choice('make', 'new')),
       field('arguments', seq(
-        "(", optSeq($.expr, repSeq(",", $.expr)), ")",
+        "(", $.type, optSeq(',', $.inferredExpr), ")",
       ))
-    )),
+    ),
 
-    builtinCallFmt: $ => prec(4, seq(
-      choice('printf', 'sprintf', 'fprintf', 'scanf', 'sscanf', 'fscanf'),
-      field('arguments', seq(
-        "(", $.stringFmtLiteral, optSeq(',', $.expr, repSeq(",", $.expr)), ")",
-      ))
-    )),
-
-    builtinCallMake: $ => prec(4, seq(
-      'make',
-      field('arguments', seq(
-        "(", $.type, optSeq(',', $.expr), ")",
-      ))
-    )),
-
-    builtinCall1Type: $ => prec(4, seq(
-      choice('new', 'sizeof', 'typeptr'),
+    builtinCall1Type: $ => seq(
+      field('name', choice('sizeof', 'typeptr')),
       field('arguments', seq(
         "(", $.type, ")",
       ))
-    )),
+    ),
 
     ident: $ => /[A-Za-z_][A-Za-z_0-9]*/,
 
@@ -375,9 +456,8 @@ module.exports = grammar({
     ),
 
     charLiteral: $ => seq("'", repeat(choice($.escSeq, /./)), "'"),
-    stringLiteral: $ => seq('"', repeat(choice($.escSeq, /./)), '"'),
-    stringFmtLiteral: $ => seq('"', repeat(choice($.escSeq, $.fmtSeq, /./)), '"'),
-    stringImportLiteral: $ => seq('"', repeat(choice($.escSeq, $.modSeq, /./)), '"'),
+    stringLiteral: $ => seq('"', repeat(choice($.escSeq, $.fmtSeq, /./)), '"'),
+    stringImportLiteral: $ => seq('"', repeat(choice($.escSeq, $.ident, /./, $.modSeq)), '"'),
 
     fmtSeq: $ => /\%[-+\s#0]?([0-9]+|\*)?(\.[0-9]*)?(hh|h|l|ll)?[diuxXfFeEgGscv%]/,
     escSeq: $ => choice(/\\[0abefnrtv]/, /\\x[0-9a-fA-F][0-9a-fA-F]*/),

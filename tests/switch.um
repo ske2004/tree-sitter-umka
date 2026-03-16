@@ -1,0 +1,9 @@
+
+fn main() {
+  switch i {
+    case 0, 7: cursor = .sizeNWSE
+    case 2, 5: cursor = .sizeSWNE
+    case 1, 6: cursor = .sizeNS
+    case 3, 4: cursor = .sizeEW
+  }
+}

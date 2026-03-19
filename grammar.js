@@ -106,8 +106,6 @@ module.exports = grammar({
       optSeq("=", field('value', $.inferredExpr)),
     ),
 
-    exportMark: $ => '*',
-
     identList: $ => prec(1, delimSeq1prec(1, ",", $.ident, optional($.exportMark))),
     localIdentList: $ => delimSeq1(",", $.ident),
 
@@ -139,14 +137,14 @@ module.exports = grammar({
       $.fnType,
     ),
 
-    ptrType: $ => seq(optional("weak"), '^', $.type),
-    arrayType: $ => seq('[', $.expr, ']', $.type),
-    dynArrayType: $ => seq('[', ']', $.type),
+    ptrType: $ => seq(optional("weak"), '^', field('type', $.type)),
+    arrayType: $ => seq('[', field('size', $.expr), ']', field('type', $.type)),
+    dynArrayType: $ => seq('[', ']', field('type', $.type)),
     enumType: $ => seq('enum', '{', reqSemiBlock($.enumItem), '}'),
     enumItem: $ => field('name', $.ident),
     structType: $ => seq('struct', '{', reqSemiBlock($.typedIdentList), '}'),
 
-    mapType: $ => seq('map', '[', $.type, ']', $.type),
+    mapType: $ => seq('map', '[', field('key', $.type), ']', field('value', $.type)),
     interfaceType: $ => seq('interface', '{', reqSemiBlock($.interfaceItem), '}'),
 
     interfaceItem: $ => choice(
@@ -236,9 +234,11 @@ module.exports = grammar({
       $.inferredExpr,
     ),
 
+    keyValuePair: $ => seq(field('key', $.inferredExpr), ":", field('value', $.inferredExpr)),
+
     listStmt: $ => prec.left(-1, seq(
       delimSeq1(",",
-        choice($.inferredExpr, seq($.inferredExpr, ":", $.inferredExpr)),
+        choice($.inferredExpr, $.keyValuePair),
       ),
       optional(","),
       optSeq("=", $.inferredExprList),
@@ -284,28 +284,39 @@ module.exports = grammar({
       $.typedSwitchStmt,
     ),
 
+    typedSwitchStmtHeader: $ => seq(
+      field('name', $.ident),
+      ':=',
+      'type',
+      '(',
+      field('expr', $.expr),
+      ')',
+    ),
+
     typedSwitchStmt: $ => seq(
       "switch",
       $.typedSwitchStmtHeader,
-      $.typedSwitchStmtBody,
+      field('body', $.typedSwitchStmtBody),
     ),
-
-    typedSwitchStmtHeader: $ => seq(field('name', $.ident), ':=', 'type', '(', $.expr, ')'),
 
     typedSwitchStmtBody: $ => seq(
       '{',
       repeat(choice(
-        seq('case', $.type, ':', reqSemiBlock($.stmt)),
-        seq('default', ':', reqSemiBlock($.stmt)),
+        seq('case', field('type', $.type), ':', field('body', reqSemiBlock($.stmt))),
+        seq('default', ':', field('body', reqSemiBlock($.stmt))),
       )),
       '}'
     ),
 
+    exprSwitchStmtHeader: $ => seq(
+      field('locals', optional($.locals)),
+      field('value', $.expr),
+    ),
+
     exprSwitchStmt: $ => seq(
       "switch",
-      optional($.locals),
-      field('value', $.expr),
-      $.exprSwitchStmtBody,
+      $.exprSwitchStmtHeader,
+      field('body', $.exprSwitchStmtBody),
     ),
 
     exprSwitchStmtBody: $ => seq(
@@ -316,7 +327,6 @@ module.exports = grammar({
       )),
       '}'
     ),
-
 
     simpleStmt: $ => choice(
       $.incDecStmt,
@@ -332,19 +342,19 @@ module.exports = grammar({
     binExpr: $ => choice(
       ...(OPERATORS.map((group, i) =>
         group.map(op => prec.left(BIN_PRECEDENCE_START+i, seq(
-          $.expr,
+          field('left', $.expr),
           field('operator', op),
-          $.expr,
+          field('right', $.expr),
         )))
       )).flat()
     ),
 
     factor: $ => choice(
-      seq('+', $.designator),
-      seq('-', $.designator),
-      seq('~', $.designator),
-      seq('!', $.designator),
-      seq('&', $.designator),
+      seq(field('operator', '+'), field('designator', $.designator)),
+      seq(field('operator', '-'), field('designator', $.designator)),
+      seq(field('operator', '~'), field('designator', $.designator)),
+      seq(field('operator', '!'), field('designator', $.designator)),
+      seq(field('operator', '&'), field('designator', $.designator)),
     ),
 
     designator: $ => choice(
@@ -356,26 +366,26 @@ module.exports = grammar({
     ),
 
     callDesignator: $ => seq(
-      $.designator,
+      field('base', $.designator),
       $.callParams,
     ),
 
     callParams: $ => seq('(', delimSeq(",", $.inferredExpr), ')'),
 
     arrayDesignator: $ => seq(
-      $.designator,
-      '[', $.expr, ']'
+      field('base', $.designator),
+      '[', field('selector', $.expr), ']'
     ),
 
     derefDesignator: $ => seq(
-      $.designator,
+      field('base', $.designator),
       '^',
     ),
 
     accessDesignator: $ => seq(
-      $.designator,
+      field('base', $.designator),
       '.',
-      $.ident
+      field('selector', $.ident)
     ),
 
     atom: $ => choice(
@@ -401,12 +411,12 @@ module.exports = grammar({
     ),
 
     compositeLiteral: $ => seq(
-      optSeq("|", delimSeq(",", $.ident), "|"),
+      optSeq("|", field('captures', delimSeq(",", $.ident)), "|"),
       $.block,
     ),
 
     enumLiteral: $ => seq(".", field('name', $.ident)),
-    typeCast: $ => seq($.type, '(', $.expr, ')'),
+    typeCast: $ => seq(field('type', $.type), '(', field('expr', $.expr), ')'),
 
     qualIdent: $ => choice(
       $.moduleIdent,
@@ -488,5 +498,7 @@ module.exports = grammar({
         '/',
       ),
     )),
+
+    exportMark: _ => token('*'),
   }
 })

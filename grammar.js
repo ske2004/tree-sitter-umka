@@ -90,7 +90,7 @@ module.exports = grammar({
     constDeclItem: $ => seq(
       field('name', $.ident),
       optional($.exportMark),
-      '=', field('value', $.expr),
+      optSeq('=', field('value', $.expr)),
     ),
 
     varDecl: $ => choice($.fullVarDecl, $.declAssignmentStmt),

@@ -36,6 +36,7 @@
 (callDesignator base: (moduleIdent name: (ident) @function.call))
 (callDesignator base: (accessDesignator selector: (ident) @function.method.call))
 (callDesignator base: (ident) @function.call)
+(keyValuePair key: (ident) @property)
 
 (constDeclItem name: (ident) @constant)
 (enumItem name: (ident) @constant)

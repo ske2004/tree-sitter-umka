@@ -3869,7 +3869,7 @@
                   "value": 1,
                   "content": {
                     "type": "PATTERN",
-                    "value": "[^\"\\n]+"
+                    "value": "[^\\\\%\"\\n]+"
                   }
                 }
               }
@@ -3909,7 +3909,7 @@
                   "value": 1,
                   "content": {
                     "type": "PATTERN",
-                    "value": "[^\"\\n]+"
+                    "value": "[^\"\\\\\\n]"
                   }
                 }
               }
@@ -3923,41 +3923,75 @@
       ]
     },
     "fmtSeq": {
-      "type": "PREC",
-      "value": 2,
+      "type": "TOKEN",
       "content": {
-        "type": "TOKEN",
+        "type": "PREC",
+        "value": 1,
         "content": {
-          "type": "PATTERN",
-          "value": "\\%[-+\\s#0]?([0-9]+|\\*)?(\\.[0-9]*)?(hh|h|l|ll)?[diuxXfFeEgGscv%]"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "%"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "[-+\\s#0]?([0-9]+|\\*)?(\\.[0-9]*)?(hh|h|l|ll)?[diuxXfFeEgGscv%]"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
         }
       }
     },
     "escSeq": {
-      "type": "PREC",
-      "value": 2,
+      "type": "TOKEN",
       "content": {
-        "type": "TOKEN",
+        "type": "PREC",
+        "value": 1,
         "content": {
-          "type": "CHOICE",
+          "type": "SEQ",
           "members": [
             {
-              "type": "PATTERN",
-              "value": "\\\\[0abefnrtv]"
+              "type": "STRING",
+              "value": "\\"
             },
             {
-              "type": "PATTERN",
-              "value": "\\\\x[0-9a-fA-F][0-9a-fA-F]*"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "PATTERN",
+                      "value": "[^xuU]"
+                    },
+                    {
+                      "type": "PATTERN",
+                      "value": "x[0-9a-fA-F][0-9a-fA-F]*"
+                    }
+                  ]
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
             }
           ]
         }
       }
     },
     "modSeq": {
-      "type": "PREC",
-      "value": 2,
+      "type": "TOKEN",
       "content": {
-        "type": "TOKEN",
+        "type": "PREC",
+        "value": 1,
         "content": {
           "type": "SEQ",
           "members": [

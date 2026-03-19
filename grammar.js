@@ -464,21 +464,21 @@ module.exports = grammar({
     stringLiteral: $ => seq(
       '"',
       repeat(
-        choice($.escSeq, $.fmtSeq, token.immediate(prec(1, /[^"\n]+/)))
+        choice($.escSeq, $.fmtSeq, token.immediate(prec(1, /[^\\%"\n]+/)))
       ),
       '"'
     ),
     stringImportLiteral: $ => seq(
       '"',
       repeat(
-        choice($.escSeq, $.modSeq, token.immediate(prec(1, /[^"\n]+/)))
+        choice($.escSeq, $.modSeq, token.immediate(prec(1, /[^"\\\n]/)))
       ),
       '"'
     ),
 
-    fmtSeq: _ => prec(2, token(/\%[-+\s#0]?([0-9]+|\*)?(\.[0-9]*)?(hh|h|l|ll)?[diuxXfFeEgGscv%]/)),
-    escSeq: _ => prec(2, token(choice(/\\[0abefnrtv]/, /\\x[0-9a-fA-F][0-9a-fA-F]*/))),
-    modSeq: $ => prec(2, token(seq(field('name', /[A-Za-z_][A-Za-z_0-9]*/), '.um'))),
+    fmtSeq: _ => token(prec(1, seq('%', optional(/[-+\s#0]?([0-9]+|\*)?(\.[0-9]*)?(hh|h|l|ll)?[diuxXfFeEgGscv%]/)))),
+    escSeq: _ => token(prec(1, seq('\\', optional(choice(/[^xuU]/, /x[0-9a-fA-F][0-9a-fA-F]*/))))),
+    modSeq: _ => token(prec(1, seq(field('name', /[A-Za-z_][A-Za-z_0-9]*/), '.um'))),
 
     comment: _ => token(choice(
       seq('//', /.*/),

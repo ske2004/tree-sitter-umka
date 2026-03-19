@@ -1299,11 +1299,6 @@
     }
   },
   {
-    "type": "escSeq",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "exportMark",
     "named": true,
     "fields": {}
@@ -1548,11 +1543,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "fmtSeq",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "fnDecl",
@@ -2574,11 +2564,6 @@
         }
       ]
     }
-  },
-  {
-    "type": "modSeq",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "moduleIdent",
@@ -4205,6 +4190,14 @@
     "named": false
   },
   {
+    "type": "escSeq",
+    "named": true
+  },
+  {
+    "type": "fmtSeq",
+    "named": true
+  },
+  {
     "type": "fn",
     "named": false
   },
@@ -4243,6 +4236,10 @@
   {
     "type": "map",
     "named": false
+  },
+  {
+    "type": "modSeq",
+    "named": true
   },
   {
     "type": "new",

@@ -1,0 +1,11 @@
+import (
+  "a/b/c/test.um"
+
+  nothing = "a/b/c/test2.um"
+
+  "C:\\windows\\virus.um"
+)
+
+const X = "format %d %v"
+const Y = "escape \n \x9A"
+const Z = "mixed %llv \n % x \x9A"

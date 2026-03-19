@@ -662,6 +662,10 @@
       "required": false,
       "types": [
         {
+          "type": "callDesignator",
+          "named": true
+        },
+        {
           "type": "constDecl",
           "named": true
         },
@@ -1070,94 +1074,15 @@
     }
   },
   {
-    "type": "callStmt",
-    "named": false,
-    "fields": {
-      "base": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "accessDesignator",
-            "named": true
-          },
-          {
-            "type": "arrayDesignator",
-            "named": true
-          },
-          {
-            "type": "builtinCall1Type",
-            "named": true
-          },
-          {
-            "type": "builtinCall2Type",
-            "named": true
-          },
-          {
-            "type": "callDesignator",
-            "named": true
-          },
-          {
-            "type": "charLiteral",
-            "named": true
-          },
-          {
-            "type": "decNumber",
-            "named": true
-          },
-          {
-            "type": "derefDesignator",
-            "named": true
-          },
-          {
-            "type": "enumLiteral",
-            "named": true
-          },
-          {
-            "type": "hexNumber",
-            "named": true
-          },
-          {
-            "type": "ident",
-            "named": true
-          },
-          {
-            "type": "moduleIdent",
-            "named": true
-          },
-          {
-            "type": "multilineStringLiteral",
-            "named": true
-          },
-          {
-            "type": "parenExpr",
-            "named": true
-          },
-          {
-            "type": "realNumber",
-            "named": true
-          },
-          {
-            "type": "stringLiteral",
-            "named": true
-          },
-          {
-            "type": "typeCast",
-            "named": true
-          },
-          {
-            "type": "typedCompositeLiteral",
-            "named": true
-          }
-        ]
-      }
-    },
+    "type": "captures",
+    "named": true,
+    "fields": {},
     "children": {
-      "multiple": false,
-      "required": true,
+      "multiple": true,
+      "required": false,
       "types": [
         {
-          "type": "callParams",
+          "type": "ident",
           "named": true
         }
       ]
@@ -1183,15 +1108,11 @@
     "named": true,
     "fields": {
       "captures": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "ident",
+            "type": "captures",
             "named": true
           }
         ]
@@ -1628,6 +1549,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "callDesignator",
+          "named": true
+        },
         {
           "type": "constDecl",
           "named": true
@@ -2084,8 +2009,8 @@
         "required": false,
         "types": [
           {
-            "type": "callStmt",
-            "named": false
+            "type": "callDesignator",
+            "named": true
           },
           {
             "type": "incDecStmt",
@@ -3739,20 +3664,17 @@
   {
     "type": "stringImportLiteral",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "escSeq",
-          "named": true
-        },
-        {
-          "type": "modSeq",
-          "named": true
-        }
-      ]
+    "fields": {
+      "module": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "modSeq",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -4111,18 +4033,24 @@
             "named": true
           }
         ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
       }
     },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
         {
           "type": "exportMark",
-          "named": true
-        },
-        {
-          "type": "type",
           "named": true
         }
       ]
@@ -4187,8 +4115,8 @@
             "named": false
           },
           {
-            "type": "callStmt",
-            "named": false
+            "type": "callDesignator",
+            "named": true
           },
           {
             "type": "constDecl",

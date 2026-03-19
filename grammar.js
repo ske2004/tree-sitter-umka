@@ -28,7 +28,6 @@ module.exports = grammar({
     $.simpleStmt,
     $.number,
     $.builtinCall,
-    $.callStmt, // TODO: check if this is fine
     $.typedSwitchStmt,
     $.exprSwitchStmt,
     $.locals,
@@ -122,7 +121,7 @@ module.exports = grammar({
     typeDeclItem: $ => seq(
       field('name', $.ident),
       optional($.exportMark),
-      '=', $.type,
+      '=', field('type', $.type),
     ),
 
     type: $ => choice(
@@ -246,8 +245,6 @@ module.exports = grammar({
 
     returnStmt: $ => seq("return", optional($.inferredExprList)),
 
-    callStmt: $ => alias($.callDesignator, 'callStmt'),
-
     locals: $ => seq($.localDeclAssignmentStmt, ';'),
 
     ifStmt: $ => seq(
@@ -330,7 +327,7 @@ module.exports = grammar({
 
     simpleStmt: $ => choice(
       $.incDecStmt,
-      $.callStmt,
+      $.callDesignator,
     ),
 
     incDecStmt: $ => seq($.designator, choice("++", "--")),
@@ -410,8 +407,10 @@ module.exports = grammar({
       $.compositeLiteral,
     ),
 
+    captures: $ => seq("|", delimSeq(",", $.ident), "|"),
+
     compositeLiteral: $ => seq(
-      optSeq("|", field('captures', delimSeq(",", $.ident)), "|"),
+      optional(field('captures', $.captures)),
       $.block,
     ),
 
@@ -480,15 +479,18 @@ module.exports = grammar({
     ),
     stringImportLiteral: $ => seq(
       '"',
-      repeat(
-        choice($.escSeq, $.modSeq, token.immediate(prec(1, /[^"\\\n]/)))
-      ),
+      optional(seq(
+        repeat(token.immediate(prec(2, /[^"\/\\\n]+\//))),
+        field('module', $.modSeq),
+        optional(token.immediate(prec(2, /\.[^"\\\n]+/))),
+      )),
       '"'
     ),
 
+    modSeq: _ => token.immediate(/[A-Za-z_][A-Za-z_0-9]*/),
+
     fmtSeq: _ => token(prec(1, seq('%', optional(/[-+\s#0]?([0-9]+|\*)?(\.[0-9]*)?(hh|h|l|ll)?[diuxXfFeEgGscv%]/)))),
     escSeq: _ => token(prec(1, seq('\\', optional(choice(/[^xuU]/, /x[0-9a-fA-F][0-9a-fA-F]*/))))),
-    modSeq: _ => token(prec(1, seq(field('name', /[A-Za-z_][A-Za-z_0-9]*/), '.um'))),
 
     comment: _ => token(choice(
       seq('//', /.*/),

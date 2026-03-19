@@ -3,6 +3,7 @@ const optSeq = (...rules) => optional(seq(...rules))
 const repSeq = (...rules) => repeat(seq(...rules))
 const delimSeq = (delim, ...rules) => seq(optSeq(...rules), repSeq(delim, ...rules))
 const delimSeq1 = (delim, ...rules) => seq(...rules, repSeq(delim, ...rules))
+const delimSeq1prec = (p, delim, ...rules) => seq(...rules, prec(p, repSeq(delim, ...rules)))
 const reqSemiBlock = (rule) => optional(seq(optional(rule), repSeq(reqSemi, optional(rule))))
 
 const TERNARY_PRECEDENCE = 1
@@ -48,10 +49,7 @@ module.exports = grammar({
   conflicts: $ => [
     [$.signature],
     [$.localIdentList, $.typedSwitchStmtHeader],
-    [$.identList, $.designatorList],
-    [$.compositeLiteral, $.block],
-    [$.compositeLiteral],
-    [$.identList, $.designatorList, $.compositeLiteral],
+    [$.identList, $.listStmt]
   ],
 
   rules: {
@@ -110,7 +108,7 @@ module.exports = grammar({
 
     exportMark: $ => '*',
 
-    identList: $ => delimSeq1(",", $.ident, optional($.exportMark)),
+    identList: $ => prec(1, delimSeq1prec(1, ",", $.ident, optional($.exportMark))),
     localIdentList: $ => delimSeq1(",", $.ident),
 
     typedIdentList: $ => seq($.identList, ":", optional(".."), $.type),
@@ -206,7 +204,7 @@ module.exports = grammar({
     ),
 
     exprList: $ => seq($.expr, repSeq(",", $.expr)),
-    inferredExprList: $ => seq($.inferredExpr, repSeq(",", $.inferredExpr)),
+    inferredExprList: $ => prec(1, seq($.inferredExpr, repSeq(",", $.inferredExpr))),
 
     parameterList: $ => seq(
       "(",
@@ -220,7 +218,6 @@ module.exports = grammar({
     block: $ => prec(1, seq("{", reqSemiBlock($.stmt), "}")),
 
     stmt: $ => choice(
-      $.block,
       $.decl,
       $.ifStmt,
       $.forStmt,
@@ -230,7 +227,7 @@ module.exports = grammar({
       "break",
       $.returnStmt,
       $.opAssignStmt,
-      $.assignStmt,
+      $.listStmt,
     ),
 
     opAssignStmt: $ => seq(
@@ -239,13 +236,13 @@ module.exports = grammar({
       $.inferredExpr,
     ),
 
-    designatorList: $ => delimSeq1(",", $.designator),
-
-    assignStmt: $ => seq(
-      field('identifiers', $.designatorList),
-      "=",
-      $.inferredExprList,
-    ),
+    listStmt: $ => prec.left(-1, seq(
+      delimSeq1(",",
+        choice($.inferredExpr, seq($.inferredExpr, ":", $.inferredExpr)),
+      ),
+      optional(","),
+      optSeq("=", $.inferredExprList),
+    )),
 
     returnStmt: $ => seq("return", optional($.inferredExprList)),
 
@@ -293,6 +290,8 @@ module.exports = grammar({
       $.typedSwitchStmtBody,
     ),
 
+    typedSwitchStmtHeader: $ => seq(field('name', $.ident), ':=', 'type', '(', $.expr, ')'),
+
     typedSwitchStmtBody: $ => seq(
       '{',
       repeat(choice(
@@ -312,13 +311,12 @@ module.exports = grammar({
     exprSwitchStmtBody: $ => seq(
       '{',
       repeat(choice(
-        seq("case", $.exprList, ":", reqSemiBlock($.stmt)),
+        seq("case", $.inferredExprList, ":", reqSemiBlock($.stmt)),
         seq("default", ":", reqSemiBlock($.stmt)),
       )),
       '}'
     ),
 
-    typedSwitchStmtHeader: $ => seq(field('name', $.ident), ':=', 'type', '(', $.expr, ')'),
 
     simpleStmt: $ => choice(
       $.incDecStmt,
@@ -381,7 +379,9 @@ module.exports = grammar({
     ),
 
     atom: $ => choice(
+      $.charLiteral,
       $.stringLiteral,
+      $.multilineStringLiteral,
       $.number,
       $.qualIdent,
       $.builtinCall,
@@ -402,13 +402,7 @@ module.exports = grammar({
 
     compositeLiteral: $ => seq(
       optSeq("|", delimSeq(",", $.ident), "|"),
-      "{",
-      choice(
-        seq(delimSeq(",", $.inferredExpr, ':', $.inferredExpr), optional(",")),
-        seq(delimSeq(",", $.inferredExpr), optional(",")),
-        reqSemiBlock($.stmt),
-      ),
-      "}",
+      $.block,
     ),
 
     enumLiteral: $ => seq(".", field('name', $.ident)),
@@ -442,28 +436,51 @@ module.exports = grammar({
       ))
     ),
 
-    ident: $ => /[A-Za-z_][A-Za-z_0-9]*/,
+    ident: _ => token(/[A-Za-z_][A-Za-z_0-9]*/),
 
     number: $ => choice($.realNumber, $.hexNumber, $.decNumber),
 
-    decNumber: $ => /[0-9]+/,
-    hexNumber: $ => /0x[0-9a-fA-F]+/,
+    decNumber: _ => token(/[0-9]+/),
+    hexNumber: _ => token(/0x[0-9a-fA-F]+/),
 
     realNumber: $ => choice(
-      /[0-9]+\.[0-9]+/,
-      /[0-9]+[Ee]\-?[0-9]+/,
-      /[0-9]+\.[0-9]+[Ee]\-?[0-9]+/,
+      token(/[0-9]+\.[0-9]+/),
+      token(/[0-9]+[Ee]\-?[0-9]+/),
+      token(/[0-9]+\.[0-9]+[Ee]\-?[0-9]+/),
     ),
 
-    charLiteral: $ => seq("'", repeat(choice($.escSeq, /./)), "'"),
-    stringLiteral: $ => seq('"', repeat(choice($.escSeq, $.fmtSeq, /./)), '"'),
-    stringImportLiteral: $ => seq('"', repeat(choice($.escSeq, $.ident, /./, $.modSeq)), '"'),
+    charLiteral: $ => seq(
+      "'",
+      repeat(
+        choice($.escSeq, token.immediate(prec(1, /[^'\n]+/)))
+      ),
+      "'"
+    ),
+    multilineStringLiteral: _ => seq(
+      '`',
+      repeat(token.immediate(prec(1, /[^\`]+/))),
+      '`'
+    ),
+    stringLiteral: $ => seq(
+      '"',
+      repeat(
+        choice($.escSeq, $.fmtSeq, token.immediate(prec(1, /[^"\n]+/)))
+      ),
+      '"'
+    ),
+    stringImportLiteral: $ => seq(
+      '"',
+      repeat(
+        choice($.escSeq, $.modSeq, token.immediate(prec(1, /[^"\n]+/)))
+      ),
+      '"'
+    ),
 
-    fmtSeq: $ => /\%[-+\s#0]?([0-9]+|\*)?(\.[0-9]*)?(hh|h|l|ll)?[diuxXfFeEgGscv%]/,
-    escSeq: $ => choice(/\\[0abefnrtv]/, /\\x[0-9a-fA-F][0-9a-fA-F]*/),
-    modSeq: $ => seq(field('name', $.ident), '.um'),
+    fmtSeq: _ => prec(2, token(/\%[-+\s#0]?([0-9]+|\*)?(\.[0-9]*)?(hh|h|l|ll)?[diuxXfFeEgGscv%]/)),
+    escSeq: _ => prec(2, token(choice(/\\[0abefnrtv]/, /\\x[0-9a-fA-F][0-9a-fA-F]*/))),
+    modSeq: $ => prec(2, token(seq(field('name', /[A-Za-z_][A-Za-z_0-9]*/), '.um'))),
 
-    comment: $ => token(choice(
+    comment: _ => token(choice(
       seq('//', /.*/),
       seq(
         '/*',

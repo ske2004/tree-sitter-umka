@@ -1,6 +1,6 @@
 [
   {
-    "type": "arrayType",
+    "type": "accessDesignator",
     "named": true,
     "fields": {},
     "children": {
@@ -8,23 +8,27 @@
       "required": true,
       "types": [
         {
+          "type": "accessDesignator",
+          "named": true
+        },
+        {
+          "type": "arrayDesignator",
+          "named": true
+        },
+        {
           "type": "builtinCall1Type",
           "named": true
         },
         {
-          "type": "builtinCallBasic",
+          "type": "builtinCall2Type",
           "named": true
         },
         {
-          "type": "builtinCallFmt",
+          "type": "callDesignator",
           "named": true
         },
         {
-          "type": "builtinCallMake",
-          "named": true
-        },
-        {
-          "type": "closureLiteral",
+          "type": "charLiteral",
           "named": true
         },
         {
@@ -32,11 +36,11 @@
           "named": true
         },
         {
-          "type": "enumLiteral",
+          "type": "derefDesignator",
           "named": true
         },
         {
-          "type": "functionCall",
+          "type": "enumLiteral",
           "named": true
         },
         {
@@ -44,11 +48,19 @@
           "named": true
         },
         {
-          "type": "literal",
+          "type": "ident",
           "named": true
         },
         {
-          "type": "qualIdent",
+          "type": "moduleIdent",
+          "named": true
+        },
+        {
+          "type": "multilineStringLiteral",
+          "named": true
+        },
+        {
+          "type": "parenExpr",
           "named": true
         },
         {
@@ -60,11 +72,391 @@
           "named": true
         },
         {
+          "type": "typeCast",
+          "named": true
+        },
+        {
+          "type": "typedCompositeLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "arrayDesignator",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "accessDesignator",
+          "named": true
+        },
+        {
+          "type": "arrayDesignator",
+          "named": true
+        },
+        {
+          "type": "binExpr",
+          "named": true
+        },
+        {
+          "type": "builtinCall1Type",
+          "named": true
+        },
+        {
+          "type": "builtinCall2Type",
+          "named": true
+        },
+        {
+          "type": "callDesignator",
+          "named": true
+        },
+        {
+          "type": "charLiteral",
+          "named": true
+        },
+        {
+          "type": "compositeLiteral",
+          "named": true
+        },
+        {
+          "type": "decNumber",
+          "named": true
+        },
+        {
+          "type": "derefDesignator",
+          "named": true
+        },
+        {
+          "type": "enumLiteral",
+          "named": true
+        },
+        {
+          "type": "factor",
+          "named": true
+        },
+        {
+          "type": "hexNumber",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "moduleIdent",
+          "named": true
+        },
+        {
+          "type": "multilineStringLiteral",
+          "named": true
+        },
+        {
+          "type": "parenExpr",
+          "named": true
+        },
+        {
+          "type": "realNumber",
+          "named": true
+        },
+        {
+          "type": "stringLiteral",
+          "named": true
+        },
+        {
+          "type": "ternary",
+          "named": true
+        },
+        {
+          "type": "typeCast",
+          "named": true
+        },
+        {
+          "type": "typedCompositeLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "arrayType",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "accessDesignator",
+          "named": true
+        },
+        {
+          "type": "arrayDesignator",
+          "named": true
+        },
+        {
+          "type": "binExpr",
+          "named": true
+        },
+        {
+          "type": "builtinCall1Type",
+          "named": true
+        },
+        {
+          "type": "builtinCall2Type",
+          "named": true
+        },
+        {
+          "type": "callDesignator",
+          "named": true
+        },
+        {
+          "type": "charLiteral",
+          "named": true
+        },
+        {
+          "type": "compositeLiteral",
+          "named": true
+        },
+        {
+          "type": "decNumber",
+          "named": true
+        },
+        {
+          "type": "derefDesignator",
+          "named": true
+        },
+        {
+          "type": "enumLiteral",
+          "named": true
+        },
+        {
+          "type": "factor",
+          "named": true
+        },
+        {
+          "type": "hexNumber",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "moduleIdent",
+          "named": true
+        },
+        {
+          "type": "multilineStringLiteral",
+          "named": true
+        },
+        {
+          "type": "parenExpr",
+          "named": true
+        },
+        {
+          "type": "realNumber",
+          "named": true
+        },
+        {
+          "type": "stringLiteral",
+          "named": true
+        },
+        {
+          "type": "ternary",
+          "named": true
+        },
+        {
           "type": "type",
           "named": true
         },
         {
           "type": "typeCast",
+          "named": true
+        },
+        {
+          "type": "typedCompositeLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "binExpr",
+    "named": true,
+    "fields": {
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "!=",
+            "named": false
+          },
+          {
+            "type": "%",
+            "named": false
+          },
+          {
+            "type": "&",
+            "named": false
+          },
+          {
+            "type": "&&",
+            "named": false
+          },
+          {
+            "type": "*",
+            "named": false
+          },
+          {
+            "type": "+",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": "/",
+            "named": false
+          },
+          {
+            "type": "<",
+            "named": false
+          },
+          {
+            "type": "<<",
+            "named": false
+          },
+          {
+            "type": "<=",
+            "named": false
+          },
+          {
+            "type": "==",
+            "named": false
+          },
+          {
+            "type": ">",
+            "named": false
+          },
+          {
+            "type": ">=",
+            "named": false
+          },
+          {
+            "type": ">>",
+            "named": false
+          },
+          {
+            "type": "|",
+            "named": false
+          },
+          {
+            "type": "||",
+            "named": false
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "accessDesignator",
+          "named": true
+        },
+        {
+          "type": "arrayDesignator",
+          "named": true
+        },
+        {
+          "type": "binExpr",
+          "named": true
+        },
+        {
+          "type": "builtinCall1Type",
+          "named": true
+        },
+        {
+          "type": "builtinCall2Type",
+          "named": true
+        },
+        {
+          "type": "callDesignator",
+          "named": true
+        },
+        {
+          "type": "charLiteral",
+          "named": true
+        },
+        {
+          "type": "compositeLiteral",
+          "named": true
+        },
+        {
+          "type": "decNumber",
+          "named": true
+        },
+        {
+          "type": "derefDesignator",
+          "named": true
+        },
+        {
+          "type": "enumLiteral",
+          "named": true
+        },
+        {
+          "type": "factor",
+          "named": true
+        },
+        {
+          "type": "hexNumber",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "moduleIdent",
+          "named": true
+        },
+        {
+          "type": "multilineStringLiteral",
+          "named": true
+        },
+        {
+          "type": "parenExpr",
+          "named": true
+        },
+        {
+          "type": "realNumber",
+          "named": true
+        },
+        {
+          "type": "stringLiteral",
+          "named": true
+        },
+        {
+          "type": "ternary",
+          "named": true
+        },
+        {
+          "type": "typeCast",
+          "named": true
+        },
+        {
+          "type": "typedCompositeLiteral",
           "named": true
         }
       ]
@@ -79,27 +471,15 @@
       "required": false,
       "types": [
         {
-          "type": "block",
-          "named": true
-        },
-        {
           "type": "constDecl",
           "named": true
         },
         {
-          "type": "continueStmt",
-          "named": true
-        },
-        {
-          "type": "fnDecl",
+          "type": "fnDef",
           "named": true
         },
         {
           "type": "forStmt",
-          "named": true
-        },
-        {
-          "type": "fullVarDecl",
           "named": true
         },
         {
@@ -111,15 +491,15 @@
           "named": true
         },
         {
-          "type": "methodDecl",
+          "type": "listStmt",
+          "named": true
+        },
+        {
+          "type": "opAssignStmt",
           "named": true
         },
         {
           "type": "returnStmt",
-          "named": true
-        },
-        {
-          "type": "shortVarDecl",
           "named": true
         },
         {
@@ -128,6 +508,10 @@
         },
         {
           "type": "typeDecl",
+          "named": true
+        },
+        {
+          "type": "varDecl",
           "named": true
         }
       ]
@@ -154,91 +538,25 @@
             "named": true
           }
         ]
-      }
-    }
-  },
-  {
-    "type": "builtinCallBasic",
-    "named": true,
-    "fields": {
-      "arguments": {
-        "multiple": true,
+      },
+      "name": {
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "(",
+            "type": "sizeof",
             "named": false
           },
           {
-            "type": ")",
+            "type": "typeptr",
             "named": false
-          },
-          {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "builtinCall1Type",
-            "named": true
-          },
-          {
-            "type": "builtinCallBasic",
-            "named": true
-          },
-          {
-            "type": "builtinCallFmt",
-            "named": true
-          },
-          {
-            "type": "builtinCallMake",
-            "named": true
-          },
-          {
-            "type": "closureLiteral",
-            "named": true
-          },
-          {
-            "type": "decNumber",
-            "named": true
-          },
-          {
-            "type": "enumLiteral",
-            "named": true
-          },
-          {
-            "type": "functionCall",
-            "named": true
-          },
-          {
-            "type": "hexNumber",
-            "named": true
-          },
-          {
-            "type": "literal",
-            "named": true
-          },
-          {
-            "type": "qualIdent",
-            "named": true
-          },
-          {
-            "type": "realNumber",
-            "named": true
-          },
-          {
-            "type": "stringLiteral",
-            "named": true
-          },
-          {
-            "type": "typeCast",
-            "named": true
           }
         ]
       }
     }
   },
   {
-    "type": "builtinCallFmt",
+    "type": "builtinCall2Type",
     "named": true,
     "fields": {
       "arguments": {
@@ -258,23 +576,35 @@
             "named": false
           },
           {
+            "type": "accessDesignator",
+            "named": true
+          },
+          {
+            "type": "arrayDesignator",
+            "named": true
+          },
+          {
+            "type": "binExpr",
+            "named": true
+          },
+          {
             "type": "builtinCall1Type",
             "named": true
           },
           {
-            "type": "builtinCallBasic",
+            "type": "builtinCall2Type",
             "named": true
           },
           {
-            "type": "builtinCallFmt",
+            "type": "callDesignator",
             "named": true
           },
           {
-            "type": "builtinCallMake",
+            "type": "charLiteral",
             "named": true
           },
           {
-            "type": "closureLiteral",
+            "type": "compositeLiteral",
             "named": true
           },
           {
@@ -282,87 +612,7 @@
             "named": true
           },
           {
-            "type": "enumLiteral",
-            "named": true
-          },
-          {
-            "type": "functionCall",
-            "named": true
-          },
-          {
-            "type": "hexNumber",
-            "named": true
-          },
-          {
-            "type": "literal",
-            "named": true
-          },
-          {
-            "type": "qualIdent",
-            "named": true
-          },
-          {
-            "type": "realNumber",
-            "named": true
-          },
-          {
-            "type": "stringFmtLiteral",
-            "named": true
-          },
-          {
-            "type": "stringLiteral",
-            "named": true
-          },
-          {
-            "type": "typeCast",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "builtinCallMake",
-    "named": true,
-    "fields": {
-      "arguments": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "builtinCall1Type",
-            "named": true
-          },
-          {
-            "type": "builtinCallBasic",
-            "named": true
-          },
-          {
-            "type": "builtinCallFmt",
-            "named": true
-          },
-          {
-            "type": "builtinCallMake",
-            "named": true
-          },
-          {
-            "type": "closureLiteral",
-            "named": true
-          },
-          {
-            "type": "decNumber",
+            "type": "derefDesignator",
             "named": true
           },
           {
@@ -370,7 +620,7 @@
             "named": true
           },
           {
-            "type": "functionCall",
+            "type": "factor",
             "named": true
           },
           {
@@ -378,11 +628,19 @@
             "named": true
           },
           {
-            "type": "literal",
+            "type": "ident",
             "named": true
           },
           {
-            "type": "qualIdent",
+            "type": "moduleIdent",
+            "named": true
+          },
+          {
+            "type": "multilineStringLiteral",
+            "named": true
+          },
+          {
+            "type": "parenExpr",
             "named": true
           },
           {
@@ -391,6 +649,10 @@
           },
           {
             "type": "stringLiteral",
+            "named": true
+          },
+          {
+            "type": "ternary",
             "named": true
           },
           {
@@ -400,9 +662,213 @@
           {
             "type": "typeCast",
             "named": true
+          },
+          {
+            "type": "typedCompositeLiteral",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "make",
+            "named": false
+          },
+          {
+            "type": "new",
+            "named": false
           }
         ]
       }
+    }
+  },
+  {
+    "type": "callDesignator",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "accessDesignator",
+          "named": true
+        },
+        {
+          "type": "arrayDesignator",
+          "named": true
+        },
+        {
+          "type": "builtinCall1Type",
+          "named": true
+        },
+        {
+          "type": "builtinCall2Type",
+          "named": true
+        },
+        {
+          "type": "callDesignator",
+          "named": true
+        },
+        {
+          "type": "callParams",
+          "named": true
+        },
+        {
+          "type": "charLiteral",
+          "named": true
+        },
+        {
+          "type": "decNumber",
+          "named": true
+        },
+        {
+          "type": "derefDesignator",
+          "named": true
+        },
+        {
+          "type": "enumLiteral",
+          "named": true
+        },
+        {
+          "type": "hexNumber",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "moduleIdent",
+          "named": true
+        },
+        {
+          "type": "multilineStringLiteral",
+          "named": true
+        },
+        {
+          "type": "parenExpr",
+          "named": true
+        },
+        {
+          "type": "realNumber",
+          "named": true
+        },
+        {
+          "type": "stringLiteral",
+          "named": true
+        },
+        {
+          "type": "typeCast",
+          "named": true
+        },
+        {
+          "type": "typedCompositeLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "callParams",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "accessDesignator",
+          "named": true
+        },
+        {
+          "type": "arrayDesignator",
+          "named": true
+        },
+        {
+          "type": "binExpr",
+          "named": true
+        },
+        {
+          "type": "builtinCall1Type",
+          "named": true
+        },
+        {
+          "type": "builtinCall2Type",
+          "named": true
+        },
+        {
+          "type": "callDesignator",
+          "named": true
+        },
+        {
+          "type": "charLiteral",
+          "named": true
+        },
+        {
+          "type": "compositeLiteral",
+          "named": true
+        },
+        {
+          "type": "decNumber",
+          "named": true
+        },
+        {
+          "type": "derefDesignator",
+          "named": true
+        },
+        {
+          "type": "enumLiteral",
+          "named": true
+        },
+        {
+          "type": "factor",
+          "named": true
+        },
+        {
+          "type": "hexNumber",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "moduleIdent",
+          "named": true
+        },
+        {
+          "type": "multilineStringLiteral",
+          "named": true
+        },
+        {
+          "type": "parenExpr",
+          "named": true
+        },
+        {
+          "type": "realNumber",
+          "named": true
+        },
+        {
+          "type": "stringLiteral",
+          "named": true
+        },
+        {
+          "type": "ternary",
+          "named": true
+        },
+        {
+          "type": "typeCast",
+          "named": true
+        },
+        {
+          "type": "typedCompositeLiteral",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -410,38 +876,105 @@
     "named": false,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "accessDesignator",
+          "named": true
+        },
+        {
+          "type": "arrayDesignator",
+          "named": true
+        },
         {
           "type": "builtinCall1Type",
           "named": true
         },
         {
-          "type": "builtinCallBasic",
+          "type": "builtinCall2Type",
           "named": true
         },
         {
-          "type": "builtinCallFmt",
+          "type": "callDesignator",
           "named": true
         },
         {
-          "type": "builtinCallMake",
+          "type": "callParams",
           "named": true
         },
         {
-          "type": "functionCall",
+          "type": "charLiteral",
           "named": true
         },
         {
-          "type": "qualIdent",
+          "type": "decNumber",
+          "named": true
+        },
+        {
+          "type": "derefDesignator",
+          "named": true
+        },
+        {
+          "type": "enumLiteral",
+          "named": true
+        },
+        {
+          "type": "hexNumber",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "moduleIdent",
+          "named": true
+        },
+        {
+          "type": "multilineStringLiteral",
+          "named": true
+        },
+        {
+          "type": "parenExpr",
+          "named": true
+        },
+        {
+          "type": "realNumber",
+          "named": true
+        },
+        {
+          "type": "stringLiteral",
+          "named": true
+        },
+        {
+          "type": "typeCast",
+          "named": true
+        },
+        {
+          "type": "typedCompositeLiteral",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "closureLiteral",
+    "type": "charLiteral",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "escSeq",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "compositeLiteral",
     "named": true,
     "fields": {},
     "children": {
@@ -454,21 +987,6 @@
         },
         {
           "type": "ident",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "closureType",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "signature",
           "named": true
         }
       ]
@@ -508,23 +1026,35 @@
         "required": true,
         "types": [
           {
+            "type": "accessDesignator",
+            "named": true
+          },
+          {
+            "type": "arrayDesignator",
+            "named": true
+          },
+          {
+            "type": "binExpr",
+            "named": true
+          },
+          {
             "type": "builtinCall1Type",
             "named": true
           },
           {
-            "type": "builtinCallBasic",
+            "type": "builtinCall2Type",
             "named": true
           },
           {
-            "type": "builtinCallFmt",
+            "type": "callDesignator",
             "named": true
           },
           {
-            "type": "builtinCallMake",
+            "type": "charLiteral",
             "named": true
           },
           {
-            "type": "closureLiteral",
+            "type": "compositeLiteral",
             "named": true
           },
           {
@@ -532,11 +1062,15 @@
             "named": true
           },
           {
+            "type": "derefDesignator",
+            "named": true
+          },
+          {
             "type": "enumLiteral",
             "named": true
           },
           {
-            "type": "functionCall",
+            "type": "factor",
             "named": true
           },
           {
@@ -544,11 +1078,19 @@
             "named": true
           },
           {
-            "type": "literal",
+            "type": "ident",
             "named": true
           },
           {
-            "type": "qualIdent",
+            "type": "moduleIdent",
+            "named": true
+          },
+          {
+            "type": "multilineStringLiteral",
+            "named": true
+          },
+          {
+            "type": "parenExpr",
             "named": true
           },
           {
@@ -560,7 +1102,15 @@
             "named": true
           },
           {
+            "type": "ternary",
+            "named": true
+          },
+          {
             "type": "typeCast",
+            "named": true
+          },
+          {
+            "type": "typedCompositeLiteral",
             "named": true
           }
         ]
@@ -604,7 +1154,7 @@
     }
   },
   {
-    "type": "designator",
+    "type": "derefDesignator",
     "named": true,
     "fields": {},
     "children": {
@@ -612,42 +1162,75 @@
       "required": true,
       "types": [
         {
+          "type": "accessDesignator",
+          "named": true
+        },
+        {
+          "type": "arrayDesignator",
+          "named": true
+        },
+        {
           "type": "builtinCall1Type",
           "named": true
         },
         {
-          "type": "builtinCallBasic",
+          "type": "builtinCall2Type",
           "named": true
         },
         {
-          "type": "builtinCallFmt",
+          "type": "callDesignator",
           "named": true
         },
         {
-          "type": "builtinCallMake",
+          "type": "charLiteral",
           "named": true
         },
         {
-          "type": "functionCall",
+          "type": "decNumber",
           "named": true
         },
         {
-          "type": "qualIdent",
+          "type": "derefDesignator",
           "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "designatorList",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
+        },
         {
-          "type": "designator",
+          "type": "enumLiteral",
+          "named": true
+        },
+        {
+          "type": "hexNumber",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "moduleIdent",
+          "named": true
+        },
+        {
+          "type": "multilineStringLiteral",
+          "named": true
+        },
+        {
+          "type": "parenExpr",
+          "named": true
+        },
+        {
+          "type": "realNumber",
+          "named": true
+        },
+        {
+          "type": "stringLiteral",
+          "named": true
+        },
+        {
+          "type": "typeCast",
+          "named": true
+        },
+        {
+          "type": "typedCompositeLiteral",
           "named": true
         }
       ]
@@ -726,15 +1309,23 @@
     "fields": {}
   },
   {
-    "type": "exprCase",
+    "type": "exprList",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "block",
+          "type": "accessDesignator",
+          "named": true
+        },
+        {
+          "type": "arrayDesignator",
+          "named": true
+        },
+        {
+          "type": "binExpr",
           "named": true
         },
         {
@@ -742,27 +1333,19 @@
           "named": true
         },
         {
-          "type": "builtinCallBasic",
+          "type": "builtinCall2Type",
           "named": true
         },
         {
-          "type": "builtinCallFmt",
+          "type": "callDesignator",
           "named": true
         },
         {
-          "type": "builtinCallMake",
+          "type": "charLiteral",
           "named": true
         },
         {
-          "type": "closureLiteral",
-          "named": true
-        },
-        {
-          "type": "constDecl",
-          "named": true
-        },
-        {
-          "type": "continueStmt",
+          "type": "compositeLiteral",
           "named": true
         },
         {
@@ -770,27 +1353,78 @@
           "named": true
         },
         {
+          "type": "derefDesignator",
+          "named": true
+        },
+        {
           "type": "enumLiteral",
           "named": true
         },
         {
-          "type": "fnDecl",
-          "named": true
-        },
-        {
-          "type": "forStmt",
-          "named": true
-        },
-        {
-          "type": "fullVarDecl",
-          "named": true
-        },
-        {
-          "type": "functionCall",
+          "type": "factor",
           "named": true
         },
         {
           "type": "hexNumber",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "moduleIdent",
+          "named": true
+        },
+        {
+          "type": "multilineStringLiteral",
+          "named": true
+        },
+        {
+          "type": "parenExpr",
+          "named": true
+        },
+        {
+          "type": "realNumber",
+          "named": true
+        },
+        {
+          "type": "stringLiteral",
+          "named": true
+        },
+        {
+          "type": "ternary",
+          "named": true
+        },
+        {
+          "type": "typeCast",
+          "named": true
+        },
+        {
+          "type": "typedCompositeLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exprSwitchStmtBody",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "constDecl",
+          "named": true
+        },
+        {
+          "type": "fnDef",
+          "named": true
+        },
+        {
+          "type": "forStmt",
           "named": true
         },
         {
@@ -802,19 +1436,15 @@
           "named": true
         },
         {
-          "type": "literal",
+          "type": "inferredExprList",
           "named": true
         },
         {
-          "type": "methodDecl",
+          "type": "listStmt",
           "named": true
         },
         {
-          "type": "qualIdent",
-          "named": true
-        },
-        {
-          "type": "realNumber",
+          "type": "opAssignStmt",
           "named": true
         },
         {
@@ -822,54 +1452,50 @@
           "named": true
         },
         {
-          "type": "shortVarDecl",
-          "named": true
-        },
-        {
-          "type": "stringLiteral",
-          "named": true
-        },
-        {
           "type": "switchStmt",
           "named": true
         },
         {
-          "type": "typeCast",
+          "type": "typeDecl",
           "named": true
         },
         {
-          "type": "typeDecl",
+          "type": "varDecl",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "exprList",
+    "type": "factor",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "accessDesignator",
+          "named": true
+        },
+        {
+          "type": "arrayDesignator",
+          "named": true
+        },
         {
           "type": "builtinCall1Type",
           "named": true
         },
         {
-          "type": "builtinCallBasic",
+          "type": "builtinCall2Type",
           "named": true
         },
         {
-          "type": "builtinCallFmt",
+          "type": "callDesignator",
           "named": true
         },
         {
-          "type": "builtinCallMake",
-          "named": true
-        },
-        {
-          "type": "closureLiteral",
+          "type": "charLiteral",
           "named": true
         },
         {
@@ -877,11 +1503,11 @@
           "named": true
         },
         {
-          "type": "enumLiteral",
+          "type": "derefDesignator",
           "named": true
         },
         {
-          "type": "functionCall",
+          "type": "enumLiteral",
           "named": true
         },
         {
@@ -889,11 +1515,19 @@
           "named": true
         },
         {
-          "type": "literal",
+          "type": "ident",
           "named": true
         },
         {
-          "type": "qualIdent",
+          "type": "moduleIdent",
+          "named": true
+        },
+        {
+          "type": "multilineStringLiteral",
+          "named": true
+        },
+        {
+          "type": "parenExpr",
           "named": true
         },
         {
@@ -907,100 +1541,57 @@
         {
           "type": "typeCast",
           "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "exprSwitchStmt",
-    "named": true,
-    "fields": {
-      "locals": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "declAssignmentStmt",
-            "named": true
-          }
-        ]
-      },
-      "value": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "builtinCall1Type",
-            "named": true
-          },
-          {
-            "type": "builtinCallBasic",
-            "named": true
-          },
-          {
-            "type": "builtinCallFmt",
-            "named": true
-          },
-          {
-            "type": "builtinCallMake",
-            "named": true
-          },
-          {
-            "type": "closureLiteral",
-            "named": true
-          },
-          {
-            "type": "decNumber",
-            "named": true
-          },
-          {
-            "type": "enumLiteral",
-            "named": true
-          },
-          {
-            "type": "functionCall",
-            "named": true
-          },
-          {
-            "type": "hexNumber",
-            "named": true
-          },
-          {
-            "type": "literal",
-            "named": true
-          },
-          {
-            "type": "qualIdent",
-            "named": true
-          },
-          {
-            "type": "realNumber",
-            "named": true
-          },
-          {
-            "type": "stringLiteral",
-            "named": true
-          },
-          {
-            "type": "typeCast",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
+        },
         {
-          "type": "exprCase",
+          "type": "typedCompositeLiteral",
           "named": true
         }
       ]
     }
   },
   {
+    "type": "fmtSeq",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "fnDecl",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ident",
+            "named": true
+          }
+        ]
+      },
+      "signature": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "signature",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "exportMark",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "fnDef",
     "named": true,
     "fields": {
       "body": {
@@ -1012,27 +1603,23 @@
             "named": true
           }
         ]
-      },
-      "exported": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "*",
-            "named": false
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "ident",
-            "named": true
-          }
-        ]
-      },
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "fnDecl",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "fnType",
+    "named": true,
+    "fields": {
       "signature": {
         "multiple": false,
         "required": true,
@@ -1054,23 +1641,35 @@
         "required": true,
         "types": [
           {
+            "type": "accessDesignator",
+            "named": true
+          },
+          {
+            "type": "arrayDesignator",
+            "named": true
+          },
+          {
+            "type": "binExpr",
+            "named": true
+          },
+          {
             "type": "builtinCall1Type",
             "named": true
           },
           {
-            "type": "builtinCallBasic",
+            "type": "builtinCall2Type",
             "named": true
           },
           {
-            "type": "builtinCallFmt",
+            "type": "callDesignator",
             "named": true
           },
           {
-            "type": "builtinCallMake",
+            "type": "charLiteral",
             "named": true
           },
           {
-            "type": "closureLiteral",
+            "type": "compositeLiteral",
             "named": true
           },
           {
@@ -1078,11 +1677,15 @@
             "named": true
           },
           {
+            "type": "derefDesignator",
+            "named": true
+          },
+          {
             "type": "enumLiteral",
             "named": true
           },
           {
-            "type": "functionCall",
+            "type": "factor",
             "named": true
           },
           {
@@ -1090,11 +1693,19 @@
             "named": true
           },
           {
-            "type": "literal",
+            "type": "ident",
             "named": true
           },
           {
-            "type": "qualIdent",
+            "type": "moduleIdent",
+            "named": true
+          },
+          {
+            "type": "multilineStringLiteral",
+            "named": true
+          },
+          {
+            "type": "parenExpr",
             "named": true
           },
           {
@@ -1106,25 +1717,15 @@
             "named": true
           },
           {
+            "type": "ternary",
+            "named": true
+          },
+          {
             "type": "typeCast",
             "named": true
-          }
-        ]
-      },
-      "init": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "callStmt",
-            "named": false
           },
           {
-            "type": "declAssignmentStmt",
-            "named": true
-          },
-          {
-            "type": "incDecStmt",
+            "type": "typedCompositeLiteral",
             "named": true
           }
         ]
@@ -1143,6 +1744,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "localDeclAssignmentStmt",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1154,23 +1765,35 @@
         "required": true,
         "types": [
           {
+            "type": "accessDesignator",
+            "named": true
+          },
+          {
+            "type": "arrayDesignator",
+            "named": true
+          },
+          {
+            "type": "binExpr",
+            "named": true
+          },
+          {
             "type": "builtinCall1Type",
             "named": true
           },
           {
-            "type": "builtinCallBasic",
+            "type": "builtinCall2Type",
             "named": true
           },
           {
-            "type": "builtinCallFmt",
+            "type": "callDesignator",
             "named": true
           },
           {
-            "type": "builtinCallMake",
+            "type": "charLiteral",
             "named": true
           },
           {
-            "type": "closureLiteral",
+            "type": "compositeLiteral",
             "named": true
           },
           {
@@ -1178,11 +1801,15 @@
             "named": true
           },
           {
+            "type": "derefDesignator",
+            "named": true
+          },
+          {
             "type": "enumLiteral",
             "named": true
           },
           {
-            "type": "functionCall",
+            "type": "factor",
             "named": true
           },
           {
@@ -1190,11 +1817,19 @@
             "named": true
           },
           {
-            "type": "literal",
+            "type": "ident",
             "named": true
           },
           {
-            "type": "qualIdent",
+            "type": "moduleIdent",
+            "named": true
+          },
+          {
+            "type": "multilineStringLiteral",
+            "named": true
+          },
+          {
+            "type": "parenExpr",
             "named": true
           },
           {
@@ -1206,7 +1841,15 @@
             "named": true
           },
           {
+            "type": "ternary",
+            "named": true
+          },
+          {
             "type": "typeCast",
+            "named": true
+          },
+          {
+            "type": "typedCompositeLiteral",
             "named": true
           }
         ]
@@ -1283,118 +1926,17 @@
     }
   },
   {
-    "type": "functionCall",
-    "named": true,
-    "fields": {
-      "arguments": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "builtinCall1Type",
-            "named": true
-          },
-          {
-            "type": "builtinCallBasic",
-            "named": true
-          },
-          {
-            "type": "builtinCallFmt",
-            "named": true
-          },
-          {
-            "type": "builtinCallMake",
-            "named": true
-          },
-          {
-            "type": "closureLiteral",
-            "named": true
-          },
-          {
-            "type": "decNumber",
-            "named": true
-          },
-          {
-            "type": "enumLiteral",
-            "named": true
-          },
-          {
-            "type": "functionCall",
-            "named": true
-          },
-          {
-            "type": "hexNumber",
-            "named": true
-          },
-          {
-            "type": "literal",
-            "named": true
-          },
-          {
-            "type": "qualIdent",
-            "named": true
-          },
-          {
-            "type": "realNumber",
-            "named": true
-          },
-          {
-            "type": "stringLiteral",
-            "named": true
-          },
-          {
-            "type": "typeCast",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "qualIdent",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
     "type": "identList",
     "named": true,
-    "fields": {
-      "exported": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "*",
-            "named": false
-          },
-          {
-            "type": "exportMark",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "exportMark",
+          "named": true
+        },
         {
           "type": "ident",
           "named": true
@@ -1425,23 +1967,35 @@
         "required": true,
         "types": [
           {
+            "type": "accessDesignator",
+            "named": true
+          },
+          {
+            "type": "arrayDesignator",
+            "named": true
+          },
+          {
+            "type": "binExpr",
+            "named": true
+          },
+          {
             "type": "builtinCall1Type",
             "named": true
           },
           {
-            "type": "builtinCallBasic",
+            "type": "builtinCall2Type",
             "named": true
           },
           {
-            "type": "builtinCallFmt",
+            "type": "callDesignator",
             "named": true
           },
           {
-            "type": "builtinCallMake",
+            "type": "charLiteral",
             "named": true
           },
           {
-            "type": "closureLiteral",
+            "type": "compositeLiteral",
             "named": true
           },
           {
@@ -1449,11 +2003,15 @@
             "named": true
           },
           {
+            "type": "derefDesignator",
+            "named": true
+          },
+          {
             "type": "enumLiteral",
             "named": true
           },
           {
-            "type": "functionCall",
+            "type": "factor",
             "named": true
           },
           {
@@ -1461,11 +2019,19 @@
             "named": true
           },
           {
-            "type": "literal",
+            "type": "ident",
             "named": true
           },
           {
-            "type": "qualIdent",
+            "type": "moduleIdent",
+            "named": true
+          },
+          {
+            "type": "multilineStringLiteral",
+            "named": true
+          },
+          {
+            "type": "parenExpr",
             "named": true
           },
           {
@@ -1477,7 +2043,15 @@
             "named": true
           },
           {
+            "type": "ternary",
+            "named": true
+          },
+          {
             "type": "typeCast",
+            "named": true
+          },
+          {
+            "type": "typedCompositeLiteral",
             "named": true
           }
         ]
@@ -1491,17 +2065,17 @@
             "named": true
           }
         ]
-      },
-      "locals": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "declAssignmentStmt",
-            "named": true
-          }
-        ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "localDeclAssignmentStmt",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1558,7 +2132,174 @@
       "required": true,
       "types": [
         {
-          "type": "designator",
+          "type": "accessDesignator",
+          "named": true
+        },
+        {
+          "type": "arrayDesignator",
+          "named": true
+        },
+        {
+          "type": "builtinCall1Type",
+          "named": true
+        },
+        {
+          "type": "builtinCall2Type",
+          "named": true
+        },
+        {
+          "type": "callDesignator",
+          "named": true
+        },
+        {
+          "type": "charLiteral",
+          "named": true
+        },
+        {
+          "type": "decNumber",
+          "named": true
+        },
+        {
+          "type": "derefDesignator",
+          "named": true
+        },
+        {
+          "type": "enumLiteral",
+          "named": true
+        },
+        {
+          "type": "hexNumber",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "moduleIdent",
+          "named": true
+        },
+        {
+          "type": "multilineStringLiteral",
+          "named": true
+        },
+        {
+          "type": "parenExpr",
+          "named": true
+        },
+        {
+          "type": "realNumber",
+          "named": true
+        },
+        {
+          "type": "stringLiteral",
+          "named": true
+        },
+        {
+          "type": "typeCast",
+          "named": true
+        },
+        {
+          "type": "typedCompositeLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "inferredExprList",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "accessDesignator",
+          "named": true
+        },
+        {
+          "type": "arrayDesignator",
+          "named": true
+        },
+        {
+          "type": "binExpr",
+          "named": true
+        },
+        {
+          "type": "builtinCall1Type",
+          "named": true
+        },
+        {
+          "type": "builtinCall2Type",
+          "named": true
+        },
+        {
+          "type": "callDesignator",
+          "named": true
+        },
+        {
+          "type": "charLiteral",
+          "named": true
+        },
+        {
+          "type": "compositeLiteral",
+          "named": true
+        },
+        {
+          "type": "decNumber",
+          "named": true
+        },
+        {
+          "type": "derefDesignator",
+          "named": true
+        },
+        {
+          "type": "enumLiteral",
+          "named": true
+        },
+        {
+          "type": "factor",
+          "named": true
+        },
+        {
+          "type": "hexNumber",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "moduleIdent",
+          "named": true
+        },
+        {
+          "type": "multilineStringLiteral",
+          "named": true
+        },
+        {
+          "type": "parenExpr",
+          "named": true
+        },
+        {
+          "type": "realNumber",
+          "named": true
+        },
+        {
+          "type": "stringLiteral",
+          "named": true
+        },
+        {
+          "type": "ternary",
+          "named": true
+        },
+        {
+          "type": "typeCast",
+          "named": true
+        },
+        {
+          "type": "typedCompositeLiteral",
           "named": true
         }
       ]
@@ -1584,6 +2325,10 @@
         "types": [
           {
             "type": "ident",
+            "named": true
+          },
+          {
+            "type": "moduleIdent",
             "named": true
           }
         ]
@@ -1616,31 +2361,43 @@
     }
   },
   {
-    "type": "literal",
+    "type": "listStmt",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
+        {
+          "type": "accessDesignator",
+          "named": true
+        },
+        {
+          "type": "arrayDesignator",
+          "named": true
+        },
+        {
+          "type": "binExpr",
+          "named": true
+        },
         {
           "type": "builtinCall1Type",
           "named": true
         },
         {
-          "type": "builtinCallBasic",
+          "type": "builtinCall2Type",
           "named": true
         },
         {
-          "type": "builtinCallFmt",
+          "type": "callDesignator",
           "named": true
         },
         {
-          "type": "builtinCallMake",
+          "type": "charLiteral",
           "named": true
         },
         {
-          "type": "closureLiteral",
+          "type": "compositeLiteral",
           "named": true
         },
         {
@@ -1648,11 +2405,15 @@
           "named": true
         },
         {
+          "type": "derefDesignator",
+          "named": true
+        },
+        {
           "type": "enumLiteral",
           "named": true
         },
         {
-          "type": "functionCall",
+          "type": "factor",
           "named": true
         },
         {
@@ -1664,11 +2425,19 @@
           "named": true
         },
         {
-          "type": "literal",
+          "type": "inferredExprList",
           "named": true
         },
         {
-          "type": "qualIdent",
+          "type": "moduleIdent",
+          "named": true
+        },
+        {
+          "type": "multilineStringLiteral",
+          "named": true
+        },
+        {
+          "type": "parenExpr",
           "named": true
         },
         {
@@ -1680,11 +2449,56 @@
           "named": true
         },
         {
-          "type": "type",
+          "type": "ternary",
           "named": true
         },
         {
           "type": "typeCast",
+          "named": true
+        },
+        {
+          "type": "typedCompositeLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "localDeclAssignmentStmt",
+    "named": true,
+    "fields": {
+      "identifiers": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "localIdentList",
+            "named": true
+          }
+        ]
+      },
+      "values": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "exprList",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "localIdentList",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ident",
           "named": true
         }
       ]
@@ -1719,16 +2533,6 @@
           }
         ]
       },
-      "exported": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "*",
-            "named": false
-          }
-        ]
-      },
       "name": {
         "multiple": false,
         "required": true,
@@ -1759,12 +2563,37 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "exportMark",
+          "named": true
+        }
+      ]
     }
   },
   {
     "type": "modSeq",
     "named": true,
+    "fields": {}
+  },
+  {
+    "type": "moduleIdent",
+    "named": true,
     "fields": {
+      "module": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ident",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -1778,31 +2607,40 @@
     }
   },
   {
-    "type": "parameterList",
+    "type": "multilineStringLiteral",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "opAssignStmt",
     "named": true,
     "fields": {
-      "defaultValue": {
-        "multiple": true,
-        "required": false,
+      "identifier": {
+        "multiple": false,
+        "required": true,
         "types": [
+          {
+            "type": "accessDesignator",
+            "named": true
+          },
+          {
+            "type": "arrayDesignator",
+            "named": true
+          },
           {
             "type": "builtinCall1Type",
             "named": true
           },
           {
-            "type": "builtinCallBasic",
+            "type": "builtinCall2Type",
             "named": true
           },
           {
-            "type": "builtinCallFmt",
+            "type": "callDesignator",
             "named": true
           },
           {
-            "type": "builtinCallMake",
-            "named": true
-          },
-          {
-            "type": "closureLiteral",
+            "type": "charLiteral",
             "named": true
           },
           {
@@ -1810,11 +2648,11 @@
             "named": true
           },
           {
-            "type": "enumLiteral",
+            "type": "derefDesignator",
             "named": true
           },
           {
-            "type": "functionCall",
+            "type": "enumLiteral",
             "named": true
           },
           {
@@ -1822,11 +2660,19 @@
             "named": true
           },
           {
-            "type": "literal",
+            "type": "ident",
             "named": true
           },
           {
-            "type": "qualIdent",
+            "type": "moduleIdent",
+            "named": true
+          },
+          {
+            "type": "multilineStringLiteral",
+            "named": true
+          },
+          {
+            "type": "parenExpr",
             "named": true
           },
           {
@@ -1839,6 +2685,250 @@
           },
           {
             "type": "typeCast",
+            "named": true
+          },
+          {
+            "type": "typedCompositeLiteral",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "%=",
+            "named": false
+          },
+          {
+            "type": "&=",
+            "named": false
+          },
+          {
+            "type": "*=",
+            "named": false
+          },
+          {
+            "type": "+=",
+            "named": false
+          },
+          {
+            "type": "-=",
+            "named": false
+          },
+          {
+            "type": "/=",
+            "named": false
+          },
+          {
+            "type": "<<=",
+            "named": false
+          },
+          {
+            "type": ">>=",
+            "named": false
+          },
+          {
+            "type": "|=",
+            "named": false
+          },
+          {
+            "type": "~=",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "accessDesignator",
+          "named": true
+        },
+        {
+          "type": "arrayDesignator",
+          "named": true
+        },
+        {
+          "type": "binExpr",
+          "named": true
+        },
+        {
+          "type": "builtinCall1Type",
+          "named": true
+        },
+        {
+          "type": "builtinCall2Type",
+          "named": true
+        },
+        {
+          "type": "callDesignator",
+          "named": true
+        },
+        {
+          "type": "charLiteral",
+          "named": true
+        },
+        {
+          "type": "compositeLiteral",
+          "named": true
+        },
+        {
+          "type": "decNumber",
+          "named": true
+        },
+        {
+          "type": "derefDesignator",
+          "named": true
+        },
+        {
+          "type": "enumLiteral",
+          "named": true
+        },
+        {
+          "type": "factor",
+          "named": true
+        },
+        {
+          "type": "hexNumber",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "moduleIdent",
+          "named": true
+        },
+        {
+          "type": "multilineStringLiteral",
+          "named": true
+        },
+        {
+          "type": "parenExpr",
+          "named": true
+        },
+        {
+          "type": "realNumber",
+          "named": true
+        },
+        {
+          "type": "stringLiteral",
+          "named": true
+        },
+        {
+          "type": "ternary",
+          "named": true
+        },
+        {
+          "type": "typeCast",
+          "named": true
+        },
+        {
+          "type": "typedCompositeLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "parameterList",
+    "named": true,
+    "fields": {
+      "defaultValue": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "accessDesignator",
+            "named": true
+          },
+          {
+            "type": "arrayDesignator",
+            "named": true
+          },
+          {
+            "type": "binExpr",
+            "named": true
+          },
+          {
+            "type": "builtinCall1Type",
+            "named": true
+          },
+          {
+            "type": "builtinCall2Type",
+            "named": true
+          },
+          {
+            "type": "callDesignator",
+            "named": true
+          },
+          {
+            "type": "charLiteral",
+            "named": true
+          },
+          {
+            "type": "compositeLiteral",
+            "named": true
+          },
+          {
+            "type": "decNumber",
+            "named": true
+          },
+          {
+            "type": "derefDesignator",
+            "named": true
+          },
+          {
+            "type": "enumLiteral",
+            "named": true
+          },
+          {
+            "type": "factor",
+            "named": true
+          },
+          {
+            "type": "hexNumber",
+            "named": true
+          },
+          {
+            "type": "ident",
+            "named": true
+          },
+          {
+            "type": "moduleIdent",
+            "named": true
+          },
+          {
+            "type": "multilineStringLiteral",
+            "named": true
+          },
+          {
+            "type": "parenExpr",
+            "named": true
+          },
+          {
+            "type": "realNumber",
+            "named": true
+          },
+          {
+            "type": "stringLiteral",
+            "named": true
+          },
+          {
+            "type": "ternary",
+            "named": true
+          },
+          {
+            "type": "typeCast",
+            "named": true
+          },
+          {
+            "type": "typedCompositeLiteral",
             "named": true
           }
         ]
@@ -1856,8 +2946,108 @@
     }
   },
   {
+    "type": "parenExpr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "accessDesignator",
+          "named": true
+        },
+        {
+          "type": "arrayDesignator",
+          "named": true
+        },
+        {
+          "type": "binExpr",
+          "named": true
+        },
+        {
+          "type": "builtinCall1Type",
+          "named": true
+        },
+        {
+          "type": "builtinCall2Type",
+          "named": true
+        },
+        {
+          "type": "callDesignator",
+          "named": true
+        },
+        {
+          "type": "charLiteral",
+          "named": true
+        },
+        {
+          "type": "compositeLiteral",
+          "named": true
+        },
+        {
+          "type": "decNumber",
+          "named": true
+        },
+        {
+          "type": "derefDesignator",
+          "named": true
+        },
+        {
+          "type": "enumLiteral",
+          "named": true
+        },
+        {
+          "type": "factor",
+          "named": true
+        },
+        {
+          "type": "hexNumber",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "moduleIdent",
+          "named": true
+        },
+        {
+          "type": "multilineStringLiteral",
+          "named": true
+        },
+        {
+          "type": "parenExpr",
+          "named": true
+        },
+        {
+          "type": "realNumber",
+          "named": true
+        },
+        {
+          "type": "stringLiteral",
+          "named": true
+        },
+        {
+          "type": "ternary",
+          "named": true
+        },
+        {
+          "type": "typeCast",
+          "named": true
+        },
+        {
+          "type": "typedCompositeLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "program",
     "named": true,
+    "root": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -1868,11 +3058,7 @@
           "named": true
         },
         {
-          "type": "fnDecl",
-          "named": true
-        },
-        {
-          "type": "fullVarDecl",
+          "type": "fnDef",
           "named": true
         },
         {
@@ -1884,11 +3070,11 @@
           "named": true
         },
         {
-          "type": "shortVarDecl",
+          "type": "typeDecl",
           "named": true
         },
         {
-          "type": "typeDecl",
+          "type": "varDecl",
           "named": true
         }
       ]
@@ -1907,32 +3093,6 @@
           "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "qualIdent",
-    "named": true,
-    "fields": {
-      "module": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "ident",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "ident",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {
@@ -1972,10 +3132,10 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "exprList",
+          "type": "inferredExprList",
           "named": true
         }
       ]
@@ -1991,21 +3151,6 @@
       "types": [
         {
           "type": "type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "shortVarDecl",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "declAssignmentStmt",
           "named": true
         }
       ]
@@ -2032,25 +3177,6 @@
       "types": [
         {
           "type": "parameterList",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "stringFmtLiteral",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "escSeq",
-          "named": true
-        },
-        {
-          "type": "fmtSeq",
           "named": true
         }
       ]
@@ -2086,6 +3212,10 @@
         {
           "type": "escSeq",
           "named": true
+        },
+        {
+          "type": "fmtSeq",
+          "named": true
         }
       ]
     }
@@ -2108,58 +3238,41 @@
   {
     "type": "switchStmt",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "exprSwitchStmt",
-          "named": true
-        },
-        {
-          "type": "switchStmtDisambiguated",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "switchStmtDisambiguated",
-    "named": true,
     "fields": {
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "ident",
-            "named": true
-          }
-        ]
-      },
       "value": {
         "multiple": false,
         "required": false,
         "types": [
           {
+            "type": "accessDesignator",
+            "named": true
+          },
+          {
+            "type": "arrayDesignator",
+            "named": true
+          },
+          {
+            "type": "binExpr",
+            "named": true
+          },
+          {
             "type": "builtinCall1Type",
             "named": true
           },
           {
-            "type": "builtinCallBasic",
+            "type": "builtinCall2Type",
             "named": true
           },
           {
-            "type": "builtinCallFmt",
+            "type": "callDesignator",
             "named": true
           },
           {
-            "type": "builtinCallMake",
+            "type": "charLiteral",
             "named": true
           },
           {
-            "type": "closureLiteral",
+            "type": "compositeLiteral",
             "named": true
           },
           {
@@ -2167,11 +3280,15 @@
             "named": true
           },
           {
+            "type": "derefDesignator",
+            "named": true
+          },
+          {
             "type": "enumLiteral",
             "named": true
           },
           {
-            "type": "functionCall",
+            "type": "factor",
             "named": true
           },
           {
@@ -2179,11 +3296,19 @@
             "named": true
           },
           {
-            "type": "literal",
+            "type": "ident",
             "named": true
           },
           {
-            "type": "qualIdent",
+            "type": "moduleIdent",
+            "named": true
+          },
+          {
+            "type": "multilineStringLiteral",
+            "named": true
+          },
+          {
+            "type": "parenExpr",
             "named": true
           },
           {
@@ -2195,7 +3320,15 @@
             "named": true
           },
           {
+            "type": "ternary",
+            "named": true
+          },
+          {
             "type": "typeCast",
+            "named": true
+          },
+          {
+            "type": "typedCompositeLiteral",
             "named": true
           }
         ]
@@ -2206,23 +3339,62 @@
       "required": true,
       "types": [
         {
+          "type": "exprSwitchStmtBody",
+          "named": true
+        },
+        {
+          "type": "localDeclAssignmentStmt",
+          "named": true
+        },
+        {
+          "type": "typedSwitchStmtBody",
+          "named": true
+        },
+        {
+          "type": "typedSwitchStmtHeader",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ternary",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "accessDesignator",
+          "named": true
+        },
+        {
+          "type": "arrayDesignator",
+          "named": true
+        },
+        {
+          "type": "binExpr",
+          "named": true
+        },
+        {
           "type": "builtinCall1Type",
           "named": true
         },
         {
-          "type": "builtinCallBasic",
+          "type": "builtinCall2Type",
           "named": true
         },
         {
-          "type": "builtinCallFmt",
+          "type": "callDesignator",
           "named": true
         },
         {
-          "type": "builtinCallMake",
+          "type": "charLiteral",
           "named": true
         },
         {
-          "type": "closureLiteral",
+          "type": "compositeLiteral",
           "named": true
         },
         {
@@ -2230,15 +3402,15 @@
           "named": true
         },
         {
+          "type": "derefDesignator",
+          "named": true
+        },
+        {
           "type": "enumLiteral",
           "named": true
         },
         {
-          "type": "exprCase",
-          "named": true
-        },
-        {
-          "type": "functionCall",
+          "type": "factor",
           "named": true
         },
         {
@@ -2246,11 +3418,19 @@
           "named": true
         },
         {
-          "type": "literal",
+          "type": "ident",
           "named": true
         },
         {
-          "type": "qualIdent",
+          "type": "moduleIdent",
+          "named": true
+        },
+        {
+          "type": "multilineStringLiteral",
+          "named": true
+        },
+        {
+          "type": "parenExpr",
           "named": true
         },
         {
@@ -2262,7 +3442,7 @@
           "named": true
         },
         {
-          "type": "typeCase",
+          "type": "ternary",
           "named": true
         },
         {
@@ -2270,7 +3450,7 @@
           "named": true
         },
         {
-          "type": "typeOf",
+          "type": "typedCompositeLiteral",
           "named": true
         }
       ]
@@ -2289,15 +3469,19 @@
           "named": true
         },
         {
-          "type": "closureType",
-          "named": true
-        },
-        {
           "type": "dynArrayType",
           "named": true
         },
         {
           "type": "enumType",
+          "named": true
+        },
+        {
+          "type": "fnType",
+          "named": true
+        },
+        {
+          "type": "ident",
           "named": true
         },
         {
@@ -2309,82 +3493,15 @@
           "named": true
         },
         {
+          "type": "moduleIdent",
+          "named": true
+        },
+        {
           "type": "ptrType",
           "named": true
         },
         {
-          "type": "qualIdent",
-          "named": true
-        },
-        {
           "type": "structType",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "typeCase",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "block",
-          "named": true
-        },
-        {
-          "type": "constDecl",
-          "named": true
-        },
-        {
-          "type": "continueStmt",
-          "named": true
-        },
-        {
-          "type": "fnDecl",
-          "named": true
-        },
-        {
-          "type": "forStmt",
-          "named": true
-        },
-        {
-          "type": "fullVarDecl",
-          "named": true
-        },
-        {
-          "type": "ifStmt",
-          "named": true
-        },
-        {
-          "type": "incDecStmt",
-          "named": true
-        },
-        {
-          "type": "methodDecl",
-          "named": true
-        },
-        {
-          "type": "returnStmt",
-          "named": true
-        },
-        {
-          "type": "shortVarDecl",
-          "named": true
-        },
-        {
-          "type": "switchStmt",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        },
-        {
-          "type": "typeDecl",
           "named": true
         }
       ]
@@ -2399,23 +3516,35 @@
       "required": true,
       "types": [
         {
+          "type": "accessDesignator",
+          "named": true
+        },
+        {
+          "type": "arrayDesignator",
+          "named": true
+        },
+        {
+          "type": "binExpr",
+          "named": true
+        },
+        {
           "type": "builtinCall1Type",
           "named": true
         },
         {
-          "type": "builtinCallBasic",
+          "type": "builtinCall2Type",
           "named": true
         },
         {
-          "type": "builtinCallFmt",
+          "type": "callDesignator",
           "named": true
         },
         {
-          "type": "builtinCallMake",
+          "type": "charLiteral",
           "named": true
         },
         {
-          "type": "closureLiteral",
+          "type": "compositeLiteral",
           "named": true
         },
         {
@@ -2423,11 +3552,15 @@
           "named": true
         },
         {
+          "type": "derefDesignator",
+          "named": true
+        },
+        {
           "type": "enumLiteral",
           "named": true
         },
         {
-          "type": "functionCall",
+          "type": "factor",
           "named": true
         },
         {
@@ -2435,11 +3568,19 @@
           "named": true
         },
         {
-          "type": "literal",
+          "type": "ident",
           "named": true
         },
         {
-          "type": "qualIdent",
+          "type": "moduleIdent",
+          "named": true
+        },
+        {
+          "type": "multilineStringLiteral",
+          "named": true
+        },
+        {
+          "type": "parenExpr",
           "named": true
         },
         {
@@ -2451,11 +3592,19 @@
           "named": true
         },
         {
+          "type": "ternary",
+          "named": true
+        },
+        {
           "type": "type",
           "named": true
         },
         {
           "type": "typeCast",
+          "named": true
+        },
+        {
+          "type": "typedCompositeLiteral",
           "named": true
         }
       ]
@@ -2507,67 +3656,19 @@
     }
   },
   {
-    "type": "typeOf",
+    "type": "typedCompositeLiteral",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "builtinCall1Type",
+          "type": "compositeLiteral",
           "named": true
         },
         {
-          "type": "builtinCallBasic",
-          "named": true
-        },
-        {
-          "type": "builtinCallFmt",
-          "named": true
-        },
-        {
-          "type": "builtinCallMake",
-          "named": true
-        },
-        {
-          "type": "closureLiteral",
-          "named": true
-        },
-        {
-          "type": "decNumber",
-          "named": true
-        },
-        {
-          "type": "enumLiteral",
-          "named": true
-        },
-        {
-          "type": "functionCall",
-          "named": true
-        },
-        {
-          "type": "hexNumber",
-          "named": true
-        },
-        {
-          "type": "literal",
-          "named": true
-        },
-        {
-          "type": "qualIdent",
-          "named": true
-        },
-        {
-          "type": "realNumber",
-          "named": true
-        },
-        {
-          "type": "stringLiteral",
-          "named": true
-        },
-        {
-          "type": "typeCast",
+          "type": "type",
           "named": true
         }
       ]
@@ -2593,6 +3694,194 @@
     }
   },
   {
+    "type": "typedSwitchStmtBody",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "constDecl",
+          "named": true
+        },
+        {
+          "type": "fnDef",
+          "named": true
+        },
+        {
+          "type": "forStmt",
+          "named": true
+        },
+        {
+          "type": "ifStmt",
+          "named": true
+        },
+        {
+          "type": "incDecStmt",
+          "named": true
+        },
+        {
+          "type": "listStmt",
+          "named": true
+        },
+        {
+          "type": "opAssignStmt",
+          "named": true
+        },
+        {
+          "type": "returnStmt",
+          "named": true
+        },
+        {
+          "type": "switchStmt",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "typeDecl",
+          "named": true
+        },
+        {
+          "type": "varDecl",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "typedSwitchStmtHeader",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ident",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "accessDesignator",
+          "named": true
+        },
+        {
+          "type": "arrayDesignator",
+          "named": true
+        },
+        {
+          "type": "binExpr",
+          "named": true
+        },
+        {
+          "type": "builtinCall1Type",
+          "named": true
+        },
+        {
+          "type": "builtinCall2Type",
+          "named": true
+        },
+        {
+          "type": "callDesignator",
+          "named": true
+        },
+        {
+          "type": "charLiteral",
+          "named": true
+        },
+        {
+          "type": "compositeLiteral",
+          "named": true
+        },
+        {
+          "type": "decNumber",
+          "named": true
+        },
+        {
+          "type": "derefDesignator",
+          "named": true
+        },
+        {
+          "type": "enumLiteral",
+          "named": true
+        },
+        {
+          "type": "factor",
+          "named": true
+        },
+        {
+          "type": "hexNumber",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "moduleIdent",
+          "named": true
+        },
+        {
+          "type": "multilineStringLiteral",
+          "named": true
+        },
+        {
+          "type": "parenExpr",
+          "named": true
+        },
+        {
+          "type": "realNumber",
+          "named": true
+        },
+        {
+          "type": "stringLiteral",
+          "named": true
+        },
+        {
+          "type": "ternary",
+          "named": true
+        },
+        {
+          "type": "typeCast",
+          "named": true
+        },
+        {
+          "type": "typedCompositeLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "varDecl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "declAssignmentStmt",
+          "named": true
+        },
+        {
+          "type": "fullVarDecl",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "varDeclItem",
     "named": true,
     "fields": {
@@ -2611,23 +3900,35 @@
         "required": false,
         "types": [
           {
+            "type": "accessDesignator",
+            "named": true
+          },
+          {
+            "type": "arrayDesignator",
+            "named": true
+          },
+          {
+            "type": "binExpr",
+            "named": true
+          },
+          {
             "type": "builtinCall1Type",
             "named": true
           },
           {
-            "type": "builtinCallBasic",
+            "type": "builtinCall2Type",
             "named": true
           },
           {
-            "type": "builtinCallFmt",
+            "type": "callDesignator",
             "named": true
           },
           {
-            "type": "builtinCallMake",
+            "type": "charLiteral",
             "named": true
           },
           {
-            "type": "closureLiteral",
+            "type": "compositeLiteral",
             "named": true
           },
           {
@@ -2635,11 +3936,15 @@
             "named": true
           },
           {
+            "type": "derefDesignator",
+            "named": true
+          },
+          {
             "type": "enumLiteral",
             "named": true
           },
           {
-            "type": "functionCall",
+            "type": "factor",
             "named": true
           },
           {
@@ -2647,11 +3952,19 @@
             "named": true
           },
           {
-            "type": "literal",
+            "type": "ident",
             "named": true
           },
           {
-            "type": "qualIdent",
+            "type": "moduleIdent",
+            "named": true
+          },
+          {
+            "type": "multilineStringLiteral",
+            "named": true
+          },
+          {
+            "type": "parenExpr",
             "named": true
           },
           {
@@ -2663,7 +3976,15 @@
             "named": true
           },
           {
+            "type": "ternary",
+            "named": true
+          },
+          {
             "type": "typeCast",
+            "named": true
+          },
+          {
+            "type": "typedCompositeLiteral",
             "named": true
           }
         ]
@@ -2671,7 +3992,39 @@
     }
   },
   {
+    "type": "\n",
+    "named": false
+  },
+  {
+    "type": "!",
+    "named": false
+  },
+  {
+    "type": "!=",
+    "named": false
+  },
+  {
     "type": "\"",
+    "named": false
+  },
+  {
+    "type": "%",
+    "named": false
+  },
+  {
+    "type": "%=",
+    "named": false
+  },
+  {
+    "type": "&",
+    "named": false
+  },
+  {
+    "type": "&&",
+    "named": false
+  },
+  {
+    "type": "&=",
     "named": false
   },
   {
@@ -2691,7 +4044,19 @@
     "named": false
   },
   {
+    "type": "*=",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
     "type": "++",
+    "named": false
+  },
+  {
+    "type": "+=",
     "named": false
   },
   {
@@ -2699,7 +4064,15 @@
     "named": false
   },
   {
+    "type": "-",
+    "named": false
+  },
+  {
     "type": "--",
+    "named": false
+  },
+  {
+    "type": "-=",
     "named": false
   },
   {
@@ -2711,7 +4084,11 @@
     "named": false
   },
   {
-    "type": ".um",
+    "type": "/",
+    "named": false
+  },
+  {
+    "type": "/=",
     "named": false
   },
   {
@@ -2731,7 +4108,47 @@
     "named": false
   },
   {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "<<",
+    "named": false
+  },
+  {
+    "type": "<<=",
+    "named": false
+  },
+  {
+    "type": "<=",
+    "named": false
+  },
+  {
     "type": "=",
+    "named": false
+  },
+  {
+    "type": "==",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": ">=",
+    "named": false
+  },
+  {
+    "type": ">>",
+    "named": false
+  },
+  {
+    "type": ">>=",
+    "named": false
+  },
+  {
+    "type": "?",
     "named": false
   },
   {
@@ -2747,19 +4164,11 @@
     "named": false
   },
   {
-    "type": "append",
+    "type": "`",
     "named": false
   },
   {
-    "type": "atan",
-    "named": false
-  },
-  {
-    "type": "atan2",
-    "named": false
-  },
-  {
-    "type": "cap",
+    "type": "break",
     "named": false
   },
   {
@@ -2767,27 +4176,16 @@
     "named": false
   },
   {
-    "type": "ceil",
-    "named": false
-  },
-  {
     "type": "comment",
-    "named": true
+    "named": true,
+    "extra": true
   },
   {
     "type": "const",
     "named": false
   },
   {
-    "type": "continueStmt",
-    "named": true
-  },
-  {
-    "type": "copy",
-    "named": false
-  },
-  {
-    "type": "cos",
+    "type": "continue",
     "named": false
   },
   {
@@ -2799,10 +4197,6 @@
     "named": false
   },
   {
-    "type": "delete",
-    "named": false
-  },
-  {
     "type": "else",
     "named": false
   },
@@ -2811,51 +4205,11 @@
     "named": false
   },
   {
-    "type": "exit",
-    "named": false
-  },
-  {
-    "type": "exp",
-    "named": false
-  },
-  {
-    "type": "fabs",
-    "named": false
-  },
-  {
-    "type": "fiberalive",
-    "named": false
-  },
-  {
-    "type": "fibercall",
-    "named": false
-  },
-  {
-    "type": "fiberspawn",
-    "named": false
-  },
-  {
-    "type": "floor",
-    "named": false
-  },
-  {
-    "type": "fmtSeq",
-    "named": true
-  },
-  {
     "type": "fn",
     "named": false
   },
   {
     "type": "for",
-    "named": false
-  },
-  {
-    "type": "fprintf",
-    "named": false
-  },
-  {
-    "type": "fscanf",
     "named": false
   },
   {
@@ -2879,23 +4233,7 @@
     "named": false
   },
   {
-    "type": "insert",
-    "named": false
-  },
-  {
     "type": "interface",
-    "named": false
-  },
-  {
-    "type": "keys",
-    "named": false
-  },
-  {
-    "type": "len",
-    "named": false
-  },
-  {
-    "type": "log",
     "named": false
   },
   {
@@ -2907,15 +4245,7 @@
     "named": false
   },
   {
-    "type": "memusage",
-    "named": false
-  },
-  {
     "type": "new",
-    "named": false
-  },
-  {
-    "type": "printf",
     "named": false
   },
   {
@@ -2923,47 +4253,7 @@
     "named": false
   },
   {
-    "type": "round",
-    "named": false
-  },
-  {
-    "type": "scanf",
-    "named": false
-  },
-  {
-    "type": "selfhasptr",
-    "named": false
-  },
-  {
-    "type": "selftypeeq",
-    "named": false
-  },
-  {
-    "type": "sin",
-    "named": false
-  },
-  {
     "type": "sizeof",
-    "named": false
-  },
-  {
-    "type": "sizeofself",
-    "named": false
-  },
-  {
-    "type": "slice",
-    "named": false
-  },
-  {
-    "type": "sprintf",
-    "named": false
-  },
-  {
-    "type": "sqrt",
-    "named": false
-  },
-  {
-    "type": "sscanf",
     "named": false
   },
   {
@@ -2975,23 +4265,11 @@
     "named": false
   },
   {
-    "type": "trunc",
-    "named": false
-  },
-  {
     "type": "type",
     "named": false
   },
   {
     "type": "typeptr",
-    "named": false
-  },
-  {
-    "type": "valid",
-    "named": false
-  },
-  {
-    "type": "validkey",
     "named": false
   },
   {
@@ -3011,7 +4289,23 @@
     "named": false
   },
   {
+    "type": "|=",
+    "named": false
+  },
+  {
+    "type": "||",
+    "named": false
+  },
+  {
     "type": "}",
+    "named": false
+  },
+  {
+    "type": "~",
+    "named": false
+  },
+  {
+    "type": "~=",
     "named": false
   }
 ]

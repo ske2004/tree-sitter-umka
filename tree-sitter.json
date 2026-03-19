@@ -10,7 +10,8 @@
         "um"
       ],
       "injection-regex": "^umka$",
-      "class-name": "TreeSitterUmka"
+      "class-name": "TreeSitterUmka",
+      "highlights": "queries/highlights.scm"
     }
   ],
   "metadata": {

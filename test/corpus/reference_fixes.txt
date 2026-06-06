@@ -184,3 +184,177 @@ var c: char = '\q'
         value: (charLiteral
           (ERROR
             (ident)))))))
+
+==================
+incomplete for header recovers at semicolon boundary
+==================
+fn main() {
+  for c
+
+  for c < 100 {
+  }
+}
+---
+
+(program
+  (fnDef
+    (fnDecl
+      (ident)
+      (signature
+        (parameterList)))
+    (block
+      (incompleteForStmt
+        (forHeader
+          (ident)))
+      (forStmt
+        (forHeader
+          (binExpr
+            (ident)
+            (decNumber)))
+        (block)))))
+
+==================
+incomplete if header recovers at semicolon boundary
+==================
+fn main() {
+  if x
+
+  for c < 100 {
+  }
+}
+---
+
+(program
+  (fnDef
+    (fnDecl
+      (ident)
+      (signature
+        (parameterList)))
+    (block
+      (incompleteIfStmt
+        (ident))
+      (forStmt
+        (forHeader
+          (binExpr
+            (ident)
+            (decNumber)))
+        (block)))))
+
+==================
+partial enum literal does not consume next line
+==================
+y := .
+x := a
+---
+
+(program
+  (varDecl
+    (declAssignmentStmt
+      (identList
+        (ident))
+      (exprList
+        (enumLiteral))))
+  (varDecl
+    (declAssignmentStmt
+      (identList
+        (ident))
+      (exprList
+        (ident)))))
+
+==================
+incomplete switch header recovers at semicolon boundary
+==================
+fn main() {
+  switch x
+  y := a
+}
+---
+
+(program
+  (fnDef
+    (fnDecl
+      (ident)
+      (signature
+        (parameterList)))
+    (block
+      (incompleteSwitchStmt
+        (exprSwitchStmtHeader
+          (ident)))
+      (varDecl
+        (declAssignmentStmt
+          (identList
+            (ident))
+          (exprList
+            (ident)))))))
+
+==================
+incomplete type switch header recovers at semicolon boundary
+==================
+fn main() {
+  switch x := type(a)
+  y := a
+}
+---
+
+(program
+  (fnDef
+    (fnDecl
+      (ident)
+      (signature
+        (parameterList)))
+    (block
+      (incompleteSwitchStmt
+        (typedSwitchStmtHeader
+          (ident)
+          (ident)))
+      (varDecl
+        (declAssignmentStmt
+          (identList
+            (ident))
+          (exprList
+            (ident)))))))
+
+==================
+partial selectors do not consume next line
+==================
+fn main() {
+  y := a.
+  x := a
+  z := mod::
+  w := a
+}
+---
+
+(program
+  (fnDef
+    (fnDecl
+      (ident)
+      (signature
+        (parameterList)))
+    (block
+      (varDecl
+        (declAssignmentStmt
+          (identList
+            (ident))
+          (exprList
+            (accessDesignator
+              (ident)))))
+      (varDecl
+        (declAssignmentStmt
+          (identList
+            (ident))
+          (exprList
+            (ident))))
+      (varDecl
+        (declAssignmentStmt
+          (identList
+            (ident))
+          (exprList
+            (moduleIdent
+              (ident)))))
+      (varDecl
+        (declAssignmentStmt
+          (identList
+            (ident))
+          (exprList
+            (ident)))))))

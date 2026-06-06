@@ -3,7 +3,6 @@ const optSeq = (...rules) => optional(seq(...rules))
 const repSeq = (...rules) => repeat(seq(...rules))
 const delimSeq = (delim, ...rules) => seq(optSeq(...rules), repSeq(delim, ...rules))
 const delimSeq1 = (delim, ...rules) => seq(...rules, repSeq(delim, ...rules))
-const delimSeq1prec = (p, delim, ...rules) => seq(...rules, prec(p, repSeq(delim, ...rules)))
 const reqSemiBlock = (rule) => optional(seq(optional(rule), repSeq(reqSemi, optional(rule))))
 
 const KEYWORDS = [
@@ -43,6 +42,8 @@ module.exports = grammar({
     $.inferredExpr,
     $.inferredAtom,
     $.factorOperand,
+    $.switchHeader,
+    $.immediateIdent,
   ],
 
   extras: $ => [
@@ -70,11 +71,9 @@ module.exports = grammar({
       seq('import', '(', reqSemiBlock($.importItem), ')')
     ),
 
-    importItem: $ => seq(
-      choice(
-        seq(field('name', $.ident), '=', $.stringLiteral),
-        $.stringImportLiteral
-      ),
+    importItem: $ => choice(
+      seq(field('name', $.ident), '=', $.stringLiteral),
+      $.stringImportLiteral,
     ),
 
     toplevelDecl: $ => choice(
@@ -116,7 +115,7 @@ module.exports = grammar({
       optSeq("=", field('value', $.inferredExpr)),
     ),
 
-    identList: $ => prec(1, delimSeq1prec(1, ",", $.ident, optional($.exportMark))),
+    identList: $ => prec(1, delimSeq1(",", $.ident, optional($.exportMark))),
     localIdentList: $ => delimSeq1(",", $.ident),
 
     typedIdentList: $ => seq($.identList, ":", optional(".."), $.type),
@@ -237,8 +236,11 @@ module.exports = grammar({
     stmt: $ => choice(
       $.decl,
       $.ifStmt,
+      $.incompleteIfStmt,
       $.forStmt,
+      $.incompleteForStmt,
       $.switchStmt,
+      $.incompleteSwitchStmt,
       $.simpleStmt,
       "continue",
       "break",
@@ -275,6 +277,12 @@ module.exports = grammar({
       optSeq("else", field('alternative', choice($.ifStmt, $.block)))
     ),
 
+    incompleteIfStmt: $ => prec(-1, seq(
+      "if",
+      optional($.locals),
+      field('condition', $.expr),
+    )),
+
     forStmt: $ => seq(
       "for",
       choice(
@@ -284,7 +292,15 @@ module.exports = grammar({
       field('body', $.block)
     ),
 
-    forHeader: $ => prec(1, seq(
+    incompleteForStmt: $ => prec(-1, seq(
+      "for",
+      choice(
+        $.forHeader,
+        $.forInHeader,
+      ),
+    )),
+
+    forHeader: $ => prec.right(1, seq(
       optional($.locals),
       field('condition', $.expr),
       optSeq(";", field('post', $.simpleStmt)),
@@ -300,6 +316,10 @@ module.exports = grammar({
       $.exprSwitchStmt,
       $.typedSwitchStmt,
     ),
+
+    switchHeader: $ => choice($.exprSwitchStmtHeader, $.typedSwitchStmtHeader),
+
+    incompleteSwitchStmt: $ => seq("switch", $.switchHeader),
 
     typedSwitchStmtHeader: $ => seq(
       field('name', $.ident),
@@ -319,6 +339,7 @@ module.exports = grammar({
     typedSwitchStmtBody: $ => seq(
       '{',
       repeat(choice(
+        seq('case', field('type', $.type)),
         seq('case', field('type', $.type), ':', field('body', reqSemiBlock($.stmt))),
         seq('default', ':', field('body', reqSemiBlock($.stmt))),
       )),
@@ -339,6 +360,7 @@ module.exports = grammar({
     exprSwitchStmtBody: $ => seq(
       '{',
       repeat(choice(
+        seq("case", $.inferredExprList),
         seq("case", $.inferredExprList, ":", reqSemiBlock($.stmt)),
         seq("default", ":", reqSemiBlock($.stmt)),
       )),
@@ -404,7 +426,7 @@ module.exports = grammar({
     accessDesignator: $ => seq(
       field('base', $.designator),
       '.',
-      field('selector', $.ident)
+      optional(field('selector', $.immediateIdent))
     ),
 
     atom: $ => choice(
@@ -436,7 +458,10 @@ module.exports = grammar({
       $.block,
     ),
 
-    enumLiteral: $ => seq(".", field('name', $.ident)),
+    enumLiteral: $ => seq(
+      ".",
+      optional(field('name', $.immediateIdent)),
+    ),
     typeCast: $ => seq(field('type', $.type), '(', field('expr', $.expr), ')'),
 
     qualIdent: $ => choice(
@@ -445,7 +470,9 @@ module.exports = grammar({
     ),
 
     moduleIdent: $ => seq(
-      field('module', $.ident), '::', field('name', $.ident)
+      field('module', $.ident),
+      '::',
+      optional(field('name', $.immediateIdent))
     ),
 
     builtinCall: $ => choice(
@@ -468,6 +495,7 @@ module.exports = grammar({
     ),
 
     ident: _ => token(/[A-Za-z_][A-Za-z_0-9]*/),
+    immediateIdent: $ => alias(token.immediate(/[A-Za-z_][A-Za-z_0-9]*/), $.ident),
 
     number: $ => choice($.realNumber, $.hexNumber, $.decNumber),
 

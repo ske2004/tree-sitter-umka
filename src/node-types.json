@@ -83,7 +83,7 @@
       },
       "selector": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "ident",
@@ -683,6 +683,18 @@
         },
         {
           "type": "incDecStmt",
+          "named": true
+        },
+        {
+          "type": "incompleteForStmt",
+          "named": true
+        },
+        {
+          "type": "incompleteIfStmt",
+          "named": true
+        },
+        {
+          "type": "incompleteSwitchStmt",
           "named": true
         },
         {
@@ -1506,7 +1518,7 @@
     "fields": {
       "name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "ident",
@@ -1676,6 +1688,18 @@
         },
         {
           "type": "incDecStmt",
+          "named": true
+        },
+        {
+          "type": "incompleteForStmt",
+          "named": true
+        },
+        {
+          "type": "incompleteIfStmt",
+          "named": true
+        },
+        {
+          "type": "incompleteSwitchStmt",
           "named": true
         },
         {
@@ -2668,6 +2692,154 @@
     }
   },
   {
+    "type": "incompleteForStmt",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "forHeader",
+          "named": true
+        },
+        {
+          "type": "forInHeader",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "incompleteIfStmt",
+    "named": true,
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "accessDesignator",
+            "named": true
+          },
+          {
+            "type": "arrayDesignator",
+            "named": true
+          },
+          {
+            "type": "binExpr",
+            "named": true
+          },
+          {
+            "type": "builtinCall1Type",
+            "named": true
+          },
+          {
+            "type": "builtinCall2Type",
+            "named": true
+          },
+          {
+            "type": "callDesignator",
+            "named": true
+          },
+          {
+            "type": "charLiteral",
+            "named": true
+          },
+          {
+            "type": "compositeLiteral",
+            "named": true
+          },
+          {
+            "type": "decNumber",
+            "named": true
+          },
+          {
+            "type": "derefDesignator",
+            "named": true
+          },
+          {
+            "type": "enumLiteral",
+            "named": true
+          },
+          {
+            "type": "factor",
+            "named": true
+          },
+          {
+            "type": "hexNumber",
+            "named": true
+          },
+          {
+            "type": "ident",
+            "named": true
+          },
+          {
+            "type": "moduleIdent",
+            "named": true
+          },
+          {
+            "type": "multilineStringLiteral",
+            "named": true
+          },
+          {
+            "type": "parenExpr",
+            "named": true
+          },
+          {
+            "type": "realNumber",
+            "named": true
+          },
+          {
+            "type": "stringLiteral",
+            "named": true
+          },
+          {
+            "type": "ternary",
+            "named": true
+          },
+          {
+            "type": "typeCast",
+            "named": true
+          },
+          {
+            "type": "typedCompositeLiteral",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "localDeclAssignmentStmt",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "incompleteSwitchStmt",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "exprSwitchStmtHeader",
+          "named": true
+        },
+        {
+          "type": "typedSwitchStmtHeader",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "inferredExprList",
     "named": true,
     "fields": {},
@@ -3246,6 +3418,11 @@
     }
   },
   {
+    "type": "modSeq",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "moduleIdent",
     "named": true,
     "fields": {
@@ -3261,7 +3438,7 @@
       },
       "name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "ident",
@@ -4340,6 +4517,18 @@
             "named": true
           },
           {
+            "type": "incompleteForStmt",
+            "named": true
+          },
+          {
+            "type": "incompleteIfStmt",
+            "named": true
+          },
+          {
+            "type": "incompleteSwitchStmt",
+            "named": true
+          },
+          {
             "type": "listStmt",
             "named": true
           },
@@ -4876,10 +5065,6 @@
   {
     "type": "map",
     "named": false
-  },
-  {
-    "type": "modSeq",
-    "named": true
   },
   {
     "type": "new",

@@ -1,4 +1,0 @@
-fn main() {
-  switch v := 1; v {
-  }
-}

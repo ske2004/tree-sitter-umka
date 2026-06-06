@@ -1,0 +1,186 @@
+==================
+enum base and item values
+==================
+type E = enum (uint8) {
+  draw = 74
+  select
+}
+---
+
+(program
+  (typeDecl
+    (typeDeclItem
+      (ident)
+      (type
+        (enumType
+          (type
+            (ident))
+          (enumItem
+            (ident)
+            (decNumber))
+          (enumItem
+            (ident)))))))
+
+==================
+number separators and exponents
+==================
+var a: int = 100_000_000
+var b: int = 0X_FF
+var c: real = 2.6e-5
+var d: real = 7e+8
+---
+
+(program
+  (varDecl
+    (fullVarDecl
+      (varDeclItem
+        (typedIdentList
+          (identList
+            (ident))
+          (type
+            (ident)))
+        (decNumber))))
+  (varDecl
+    (fullVarDecl
+      (varDeclItem
+        (typedIdentList
+          (identList
+            (ident))
+          (type
+            (ident)))
+        (hexNumber))))
+  (varDecl
+    (fullVarDecl
+      (varDeclItem
+        (typedIdentList
+          (identList
+            (ident))
+          (type
+            (ident)))
+        (realNumber))))
+  (varDecl
+    (fullVarDecl
+      (varDeclItem
+        (typedIdentList
+          (identList
+            (ident))
+          (type
+            (ident)))
+        (realNumber)))))
+
+==================
+recursive unary operators
+==================
+fn main() {
+  q = ~~n
+  r = !-ok
+}
+---
+
+(program
+  (fnDef
+    (fnDecl
+      (ident)
+      (signature
+        (parameterList)))
+    (block
+      (listStmt
+        (ident)
+        (inferredExprList
+          (factor
+            (factor
+              (ident)))))
+      (listStmt
+        (ident)
+        (inferredExprList
+          (factor
+            (factor
+              (ident))))))))
+
+==================
+character literal escapes
+==================
+const a = 'x'
+const b = '\n'
+const c = '\xFF'
+const d = '\\'
+const e = '\''
+---
+
+(program
+  (constDecl
+    (constDeclItem
+      (ident)
+      (charLiteral)))
+  (constDecl
+    (constDeclItem
+      (ident)
+      (charLiteral
+        (escSeq))))
+  (constDecl
+    (constDeclItem
+      (ident)
+      (charLiteral
+        (escSeq))))
+  (constDecl
+    (constDeclItem
+      (ident)
+      (charLiteral
+        (escSeq))))
+  (constDecl
+    (constDeclItem
+      (ident)
+      (charLiteral
+        (escSeq)))))
+
+==================
+keywords are not identifiers
+==================
+var if: int
+type for = int
+---
+
+(program
+  (ERROR
+    (ERROR
+      (ident)
+      (ident))
+    (ident)))
+
+==================
+invalid character literals
+==================
+var a: char = ''
+var b: char = 'ab'
+var c: char = '\q'
+---
+
+(program
+  (ERROR
+    (typedIdentList
+      (identList
+        (ident))
+      (type
+        (ident))))
+  (varDecl
+    (fullVarDecl
+      (varDeclItem
+        identifiers: (typedIdentList
+          (identList
+            (ident))
+          (type
+            (ident)))
+        value: (charLiteral
+          (ERROR
+            (ident))))))
+  (varDecl
+    (fullVarDecl
+      (varDeclItem
+        identifiers: (typedIdentList
+          (identList
+            (ident))
+          (type
+            (ident)))
+        value: (charLiteral
+          (ERROR
+            (ident)))))))

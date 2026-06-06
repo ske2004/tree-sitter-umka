@@ -6,6 +6,12 @@ const delimSeq1 = (delim, ...rules) => seq(...rules, repSeq(delim, ...rules))
 const delimSeq1prec = (p, delim, ...rules) => seq(...rules, prec(p, repSeq(delim, ...rules)))
 const reqSemiBlock = (rule) => optional(seq(optional(rule), repSeq(reqSemi, optional(rule))))
 
+const KEYWORDS = [
+  'break', 'case', 'const', 'continue', 'default', 'else', 'enum', 'fn', 'for',
+  'import', 'interface', 'if', 'in', 'map', 'return', 'struct', 'switch',
+  'type', 'var', 'weak',
+]
+
 const TERNARY_PRECEDENCE = 1
 const BIN_PRECEDENCE_START = TERNARY_PRECEDENCE+1
 
@@ -36,6 +42,7 @@ module.exports = grammar({
     $.expr,
     $.inferredExpr,
     $.inferredAtom,
+    $.factorOperand,
   ],
 
   extras: $ => [
@@ -44,6 +51,10 @@ module.exports = grammar({
   ],
 
   word: $ => $.ident,
+
+  reserved: {
+    global: $ => KEYWORDS,
+  },
 
   conflicts: $ => [
     [$.signature],
@@ -139,8 +150,17 @@ module.exports = grammar({
     ptrType: $ => seq(optional("weak"), '^', field('type', $.type)),
     arrayType: $ => seq('[', field('size', $.expr), ']', field('type', $.type)),
     dynArrayType: $ => seq('[', ']', field('type', $.type)),
-    enumType: $ => seq('enum', '{', reqSemiBlock($.enumItem), '}'),
-    enumItem: $ => field('name', $.ident),
+    enumType: $ => seq(
+      'enum',
+      optSeq('(', field('base', $.type), ')'),
+      '{',
+      reqSemiBlock($.enumItem),
+      '}'
+    ),
+    enumItem: $ => seq(
+      field('name', $.ident),
+      optSeq('=', field('value', $.expr)),
+    ),
     structType: $ => seq('struct', '{', reqSemiBlock($.typedIdentList), '}'),
 
     mapType: $ => seq('map', '[', field('key', $.type), ']', field('value', $.type)),
@@ -347,12 +367,14 @@ module.exports = grammar({
     ),
 
     factor: $ => choice(
-      seq(field('operator', '+'), field('designator', $.designator)),
-      seq(field('operator', '-'), field('designator', $.designator)),
-      seq(field('operator', '~'), field('designator', $.designator)),
-      seq(field('operator', '!'), field('designator', $.designator)),
+      seq(field('operator', '+'), field('operand', $.factorOperand)),
+      seq(field('operator', '-'), field('operand', $.factorOperand)),
+      seq(field('operator', '~'), field('operand', $.factorOperand)),
+      seq(field('operator', '!'), field('operand', $.factorOperand)),
       seq(field('operator', '&'), field('designator', $.designator)),
     ),
+
+    factorOperand: $ => choice($.factor, $.designator),
 
     designator: $ => choice(
       $.callDesignator,
@@ -449,20 +471,18 @@ module.exports = grammar({
 
     number: $ => choice($.realNumber, $.hexNumber, $.decNumber),
 
-    decNumber: _ => token(/[0-9]+/),
-    hexNumber: _ => token(/0x[0-9a-fA-F]+/),
+    decNumber: _ => token(/[0-9](_?[0-9])*/),
+    hexNumber: _ => token(/0[xX]_?[0-9a-fA-F](_?[0-9a-fA-F])*/),
 
     realNumber: $ => choice(
-      token(/[0-9]+\.[0-9]+/),
-      token(/[0-9]+[Ee]\-?[0-9]+/),
-      token(/[0-9]+\.[0-9]+[Ee]\-?[0-9]+/),
+      token(/[0-9](_?[0-9])*\.[0-9](_?[0-9])*/),
+      token(/[0-9](_?[0-9])*[Ee][+-]?[0-9](_?[0-9])*/),
+      token(/[0-9](_?[0-9])*\.[0-9](_?[0-9])*[Ee][+-]?[0-9](_?[0-9])*/),
     ),
 
     charLiteral: $ => seq(
       "'",
-      repeat(
-        choice($.escSeq, token.immediate(prec(1, /[^'\n]+/)))
-      ),
+      choice($.escSeq, token.immediate(prec(1, /[^'\n]/))),
       "'"
     ),
     multilineStringLiteral: _ => seq(
@@ -482,7 +502,7 @@ module.exports = grammar({
       optional(seq(
         repeat(token.immediate(prec(2, /[^"\/\\\n]+\//))),
         field('module', $.modSeq),
-        optional(token.immediate(prec(2, /\.[^"\\\n]+/))),
+        repeat(choice($.escSeq, token.immediate(prec(1, /[^"\\\n]+/)))),
       )),
       '"'
     ),
@@ -490,7 +510,7 @@ module.exports = grammar({
     modSeq: _ => token.immediate(/[A-Za-z_][A-Za-z_0-9]*/),
 
     fmtSeq: _ => token(prec(1, seq('%', optional(/[-+\s#0]?([0-9]+|\*)?(\.[0-9]*)?(hh|h|l|ll)?[diuxXfFeEgGscv%]/)))),
-    escSeq: _ => token(prec(1, seq('\\', optional(choice(/[^xuU]/, /x[0-9a-fA-F][0-9a-fA-F]*/))))),
+    escSeq: _ => token(prec(1, seq('\\', choice(/[0abefnrtv\\'"]/, /x[0-9a-fA-F]+/)))),
 
     comment: _ => token(choice(
       seq('//', /.*/),

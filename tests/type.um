@@ -1,7 +1,0 @@
-import (
-  "test.um"
-)
-
-type (
-  X = int
-)

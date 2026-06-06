@@ -1,7 +1,0 @@
-import (
-  "../aga.um"
-
-  "test/omo.um"
-
-  x = "yay.um"
-)
